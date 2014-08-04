@@ -33,13 +33,13 @@ class XBRLParser(object):
 
         # Store the headers
         xbrl_file = OfxPreprocessedFile(file_handle)
-        xbrl_obj.headers = ofx_file.headers
+        xbrl_obj.headers = xbrl_file.headers
         xbrl_obj.accounts = []
         xbrl_obj.signon = None
 
-        skip_headers(ofx_file.fh)
-        ofx = soup_maker(ofx_file.fh)
-        if ofx.find('ofx') is None:
-            raise OfxParserException('The ofx file is empty!')
+        skip_headers(xbrl_file.fh)
+        xbrl = soup_maker(xbrl_file.fh)
+        if xbrl.find('xbrl') is None:
+            raise XBRLParserException('The xbrl file is empty!')
 
 
