@@ -1,3 +1,10 @@
+import collections
+import re
+
+if 'OrderedDict' in dir(collections):
+    odict = collections
+else:
+    import ordereddict as odict
 
 try:
     from StringIO import StringIO
@@ -5,7 +12,6 @@ except ImportError:
     from io import StringIO
 
 def soup_maker(fh):
-    skip_headers(fh)
     try:
         from bs4 import BeautifulSoup
         soup = BeautifulSoup(fh, "xml")
@@ -30,7 +36,7 @@ class XBRLParserException(Exception):
 
 class XBRLParser(object):
     @classmethod
-    def parse(file_handle):
+    def parse(self, file_handle):
         '''
         parse is the main entry point for an XBRLParser. It takes a file
         handle.
@@ -38,16 +44,11 @@ class XBRLParser(object):
         '''
 
         xbrl_obj = XBRL()
-        print file_handle
 
         # Store the headers
         xbrl_file = XBRLPreprocessedFile(file_handle)
-        xbrl_obj.headers = xbrl_file.headers
-        xbrl_obj.accounts = []
-        xbrl_obj.signon = None
-
-        skip_headers(xbrl_file.fh)
         xbrl = soup_maker(xbrl_file.fh)
+
         if xbrl.find('xbrl') is None:
             raise XBRLParserException('The xbrl file is empty!')
 
@@ -88,9 +89,9 @@ class XBRLPreprocessedFile(XBRLFile):
                     last_open_tag = tag_name
             new_fh.write(token)
         new_fh.seek(0)
-        self.fh = new_f
+        self.fh = new_fh
 
 class XBRL(object):
-        def __str__(self):
-                return ""
+    def __str__(self):
+        return ""
 
