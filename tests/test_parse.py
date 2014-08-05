@@ -3,7 +3,7 @@ from unittest import TestCase
 import sys
 sys.path.insert(0, os.path.abspath('..'))
 
-from parser import soup_maker
+from parser import soup_maker, XBRLParser
 
 class TestParse(TestCase):
 
