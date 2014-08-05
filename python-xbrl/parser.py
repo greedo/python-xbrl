@@ -51,9 +51,45 @@ class XBRLParser(object):
         if xbrl.find('xbrl') is None:
             raise XBRLParserException('The xbrl file is empty!')
 
-        stockholders_equity = xbrl.find(re.compile('^us-gaap:liabilitiesandstockholdersequity\s*'))
+        accumulated_other = xbrl.find(re.compile('^us-gaap:accumulatedothercomprehensiveincomelossnetoftax\s*'))
+        if accumulated_other:
+            print accumulated_other.text
+
+        stockholders_equity = xbrl.find(re.compile('^us-gaap:stockholdersequity\s*'))
         if stockholders_equity:
-            print stockholders_equity
+            print stockholders_equity.text
+
+        cash_and_cash = xbrl.find(re.compile('^cashandcashequivalentsatcarryingvalue\s*'))
+        if cash_and_cash:
+            print cash_and_cash.text
+
+        shares_outstanding = xbrl.find(re.compile('^us-gaap:sharesoutstanding\s*'))
+        if shares_outstanding:
+            print shares_outstanding.text
+
+        valuation_allowances = xbrl.find(re.compile('^us-gaap:valuationallowancesandreservesbalance\s*'))
+        if valuation_allowances:
+            print valuation_allowances.text
+
+        debt_instrument = xbrl.find(re.compile('^us-gaap:debtinstrumentinterestrateatperiodend\s*'))
+        if debt_instrument:
+            print debt_instrument.text
+
+        recorded_unconditional = xbrl.find(re.compile('^us-gaap:recordedunconditionalpurchaseobligation\s*'))
+        if recorded_unconditional:
+            print recorded_unconditional.text
+
+        recorded_unconditional_one_year = xbrl.find(re.compile('^us-gaap:recordedunconditionalpurchaseobligationduewithinoneyear\s*'))
+        if recorded_unconditional_one_year:
+            print recorded_unconditional_one_year.text
+
+        common_stock_issued = xbrl.find(re.compile('^us-gaap:commonstocksharesissued\s*'))
+        if common_stock_issued:
+            print common_stock_issued.text
+
+        common_stock_authorized = xbrl.find(re.compile('^us-gaap:commonstocksharesauthorized\s*'))
+        if common_stock_authorized:
+            print common_stock_authorized.text
 
 #Preprocessing to fix broken XML
 # TODO - Run tests to see if other XML processing errors can occur
@@ -97,4 +133,8 @@ class XBRLPreprocessedFile(XBRLFile):
 class XBRL(object):
     def __str__(self):
         return ""
+
+class GAAP(object):
+        def __init__(self):
+                self.outstanding_shares = 0
 
