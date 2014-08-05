@@ -3,12 +3,15 @@ from unittest import TestCase
 import sys
 sys.path.insert(0, os.path.abspath('..'))
 
-from parser import soup_maker, XBRLParser
+import six
+
+from parser import soup_maker, XBRLParser, XBRLParserException
 
 class TestParse(TestCase):
 
-        def testEmptyFile(self):
-                self.assertRaises(XBRLParserException, XBRLParser.parse, fh)
+    def testEmptyFile(self):
+        fh = six.BytesIO(six.b(""))
+        self.assertRaises(XBRLParserException, XBRLParser.parse, fh)
 
         #def test_parse(self):
         # make sure the shuffled sequence does not lose any elements
@@ -16,4 +19,3 @@ class TestParse(TestCase):
 
 if __name__ == '__main__':
     unittest.main()
-

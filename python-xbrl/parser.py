@@ -48,9 +48,12 @@ class XBRLParser(object):
         # Store the headers
         xbrl_file = XBRLPreprocessedFile(file_handle)
         xbrl = soup_maker(xbrl_file.fh)
-
         if xbrl.find('xbrl') is None:
             raise XBRLParserException('The xbrl file is empty!')
+
+        stockholders_equity = xbrl.find(re.compile('^us-gaap:liabilitiesandstockholdersequity\s*'))
+        if stockholders_equity:
+            print stockholders_equity
 
 #Preprocessing to fix broken XML
 # TODO - Run tests to see if other XML processing errors can occur
