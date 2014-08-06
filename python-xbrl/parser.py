@@ -82,19 +82,23 @@ class XBRLParser(object):
         if valuation_allowance:
             gaap_obj.valuation_allowance = valuation_allowance.text
 
-        share_based_comp = xbrl.find(re.compile('^us-gaap:sharebasedcompensationarrangementbysharebasedpaymentawardequityinstrumentsotherthanoptionsnonvestednumber\s*'))
+        share_based_comp = xbrl.find(re.compile('^us-gaap:sharebasedcompensationarrangementbysharebased\
+        paymentawardequityinstrumentsotherthanoptionsnonvestednumber\s*'))
         if share_based_comp:
             gaap_obj.share_based_comp = share_based_comp.text
 
-        share_based_comp_exercise = xbrl.find(re.compile('^us-gaap:sharebasedcompensationarrangementbysharebasedpaymentawardoptionsexercisablenumber\s*'))
+        share_based_comp_exercise = xbrl.find(re.compile('^us-gaap:sharebasedcompensationarrangementby\
+        sharebasedpaymentawardoptionsexercisablenumber\s*'))
         if share_based_comp_exercise:
             gaap_obj.share_based_comp_exercise = share_based_comp_exercise.text
 
-        share_based_comp_exercise_price = xbrl.find(re.compile('^us-gaap:sharebasedcompensationarrangementbysharebasedpaymentwwardoptionsoutstandingweightedaverageexerciseprice\s*'))
+        share_based_comp_exercise_price = xbrl.find(re.compile('^us-gaap:sharebasedcompensationarrangement\
+        bysharebasedpaymentwwardoptionsoutstandingweightedaverageexerciseprice\s*'))
         if share_based_comp_exercise_price:
             gaap_obj.share_based_comp_exercise_price = share_based_comp_exercise_price.text
 
-        share_based_comp_outstanding = xbrl.find(re.compile('^us-gaap:sharebasedcompensationarrangementbysharebasedpaymentawardoptionsoutstandingnumber\s*'))
+        share_based_comp_outstanding = xbrl.find(re.compile('^us-gaap:sharebasedcompensationarrangementby\
+        sharebasedpaymentawardoptionsoutstandingnumber\s*'))
         if share_based_comp_outstanding:
             gaap_obj.share_based_comp_outstanding = share_based_comp_outstanding.text
 
