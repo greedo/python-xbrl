@@ -7,7 +7,7 @@ from setuptools import setup, find_packages
 # This lets the install work when the user does not have BeautifulSoup
 # installed.
 VERSION = re.search(r"__version__ = '(.*?)'",
-                    open("ofxparse/__init__.py").read()).group(1)
+                    open("xbrlparse/__init__.py").read()).group(1)
 
 # Use BeautifulSoup 3 on Python 2.5 and earlier and BeautifulSoup 4 otherwise
 if sys.version_info < (2, 6):
@@ -22,6 +22,7 @@ else:
 if sys.version_info < (2, 7):
     REQUIRES.extend([
         "ordereddict>=1.1",
+        "marshmallow>=0.7",
     ])
 
 setup_params = dict(
@@ -44,7 +45,7 @@ setup_params = dict(
     keywords='xbrl, Financial, Accounting, file formats',
     author='Joe Cabrera',
     author_email='calcmaster16@gmail.com',
-    url='http://sites.google.com/site/ofxparse',
+    url='http://eminorlabs.com/python-xbrl',
     license='MIT License',
     packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
     include_package_data=True,
