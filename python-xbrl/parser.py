@@ -1,5 +1,7 @@
 import collections
 import re
+from marshmallow import Serializer, fields, pprint
+import pprint
 
 if 'OrderedDict' in dir(collections):
     odict = collections
@@ -51,45 +53,33 @@ class XBRLParser(object):
         if xbrl.find('xbrl') is None:
             raise XBRLParserException('The xbrl file is empty!')
 
+        return xbrl
+
+    @classmethod
+    def parseGAAP(self, xbrl):
+        '''
+        Parse a GAAP in xbrl-land and return a GAAP object.
+        '''
+        gaap_obj = GAAP()
+
         accumulated_other = xbrl.find(re.compile('^us-gaap:accumulatedothercomprehensiveincomelossnetoftax\s*'))
         if accumulated_other:
-            print accumulated_other.text
+            gaap_obj.accumulated_other = accumulated_other.text
 
         stockholders_equity = xbrl.find(re.compile('^us-gaap:stockholdersequity\s*'))
         if stockholders_equity:
-            print stockholders_equity.text
+            gaap_obj.stockholders_equity = stockholders_equity.text
 
         cash_and_cash = xbrl.find(re.compile('^cashandcashequivalentsatcarryingvalue\s*'))
         if cash_and_cash:
-            print cash_and_cash.text
+            gaap_obj.cash_and_cash = cash_and_cash.text
 
         shares_outstanding = xbrl.find(re.compile('^us-gaap:sharesoutstanding\s*'))
         if shares_outstanding:
-            print shares_outstanding.text
+            gaap_obj.shares_outstanding = shares_outstanding.text
 
-        valuation_allowances = xbrl.find(re.compile('^us-gaap:valuationallowancesandreservesbalance\s*'))
-        if valuation_allowances:
-            print valuation_allowances.text
+        return gaap_obj
 
-        debt_instrument = xbrl.find(re.compile('^us-gaap:debtinstrumentinterestrateatperiodend\s*'))
-        if debt_instrument:
-            print debt_instrument.text
-
-        recorded_unconditional = xbrl.find(re.compile('^us-gaap:recordedunconditionalpurchaseobligation\s*'))
-        if recorded_unconditional:
-            print recorded_unconditional.text
-
-        recorded_unconditional_one_year = xbrl.find(re.compile('^us-gaap:recordedunconditionalpurchaseobligationduewithinoneyear\s*'))
-        if recorded_unconditional_one_year:
-            print recorded_unconditional_one_year.text
-
-        common_stock_issued = xbrl.find(re.compile('^us-gaap:commonstocksharesissued\s*'))
-        if common_stock_issued:
-            print common_stock_issued.text
-
-        common_stock_authorized = xbrl.find(re.compile('^us-gaap:commonstocksharesauthorized\s*'))
-        if common_stock_authorized:
-            print common_stock_authorized.text
 
 #Preprocessing to fix broken XML
 # TODO - Run tests to see if other XML processing errors can occur
@@ -135,6 +125,18 @@ class XBRL(object):
         return ""
 
 class GAAP(object):
-        def __init__(self):
-                self.outstanding_shares = 0
+    def __init__(self,
+                 accumulated_other=None,
+                 stockholders_equity=None,
+                 cash_and_cash=None,
+                 shares_outstanding=None):
+        self.accumulated_other = accumulated_other
+        self.stockholders_equity = stockholders_equity
+        self.cash_and_cash = cash_and_cash 
+        self.shares_outstanding = shares_outstanding
 
+class GAAPSerializer(Serializer):
+    accumulated_other = fields.Number()
+    stockholders_equity = fields.Number()
+    cash_and_cash = fields.Number()
+    shares_outstanding = fields.Number()
