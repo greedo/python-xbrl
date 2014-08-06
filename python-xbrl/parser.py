@@ -58,7 +58,7 @@ class XBRLParser(object):
     @classmethod
     def parseGAAP(self, xbrl):
         '''
-        Parse a GAAP in xbrl-land and return a GAAP object.
+        Parse GAAP in xbrl-land and return a GAAP object.
         '''
         gaap_obj = GAAP()
 
@@ -70,7 +70,7 @@ class XBRLParser(object):
         if stockholders_equity:
             gaap_obj.stockholders_equity = stockholders_equity.text
 
-        cash_and_cash = xbrl.find(re.compile('^cashandcashequivalentsatcarryingvalue\s*'))
+        cash_and_cash = xbrl.find(re.compile('^us-gaap:cashandcashequivalentsatcarryingvalue\s*'))
         if cash_and_cash:
             gaap_obj.cash_and_cash = cash_and_cash.text
 
@@ -78,7 +78,39 @@ class XBRLParser(object):
         if shares_outstanding:
             gaap_obj.shares_outstanding = shares_outstanding.text
 
+        valuation_allowance = xbrl.find(re.compile('^us-gaap:valuationallowancesandreservesbalance\s*'))
+        if valuation_allowance:
+            gaap_obj.valuation_allowance = valuation_allowance.text
+
+        share_based_comp = xbrl.find(re.compile('^us-gaap:sharebasedcompensationarrangementbysharebasedpaymentawardequityinstrumentsotherthanoptionsnonvestednumber\s*'))
+        if share_based_comp:
+            gaap_obj.share_based_comp = share_based_comp.text
+
+        share_based_comp_exercise = xbrl.find(re.compile('^us-gaap:sharebasedcompensationarrangementbysharebasedpaymentawardoptionsexercisablenumber\s*'))
+        if share_based_comp_exercise:
+            gaap_obj.share_based_comp_exercise = share_based_comp_exercise.text
+
+        share_based_comp_exercise_price = xbrl.find(re.compile('^us-gaap:sharebasedcompensationarrangementbysharebasedpaymentwwardoptionsoutstandingweightedaverageexerciseprice\s*'))
+        if share_based_comp_exercise_price:
+            gaap_obj.share_based_comp_exercise_price = share_based_comp_exercise_price.text
+
+        share_based_comp_outstanding = xbrl.find(re.compile('^us-gaap:sharebasedcompensationarrangementbysharebasedpaymentawardoptionsoutstandingnumber\s*'))
+        if share_based_comp_outstanding:
+            gaap_obj.share_based_comp_outstanding = share_based_comp_outstanding.text
+
         return gaap_obj
+
+    @classmethod
+    def parseUnique(self, xbrl):
+        '''
+        Parse company unique entities in xbrl-land and return an Unique object.
+        '''
+        unique_obj = Unique()
+
+        unique_data = xbrl.findAll(re.compile('^(?!us-gaap|xbrll):\s*'))
+        print unique_data[0]
+
+        return unique_obj
 
 
 #Preprocessing to fix broken XML
@@ -120,23 +152,47 @@ class XBRLPreprocessedFile(XBRLFile):
         new_fh.seek(0)
         self.fh = new_fh
 
+
 class XBRL(object):
     def __str__(self):
         return ""
+
 
 class GAAP(object):
     def __init__(self,
                  accumulated_other=None,
                  stockholders_equity=None,
                  cash_and_cash=None,
-                 shares_outstanding=None):
+                 shares_outstanding=None,
+                 valuation_allowance=None,
+                 share_based_comp=None,
+                 share_based_comp_exercise=None,
+                 share_based_comp_exercise_price=None,
+                 share_based_comp_outstanding=None):
         self.accumulated_other = accumulated_other
+        self.cash_and_cash = cash_and_cash
         self.stockholders_equity = stockholders_equity
-        self.cash_and_cash = cash_and_cash 
         self.shares_outstanding = shares_outstanding
+        self.valuation_allowance = valuation_allowance
+        self.share_based_comp = share_based_comp
+        self.share_based_comp_exercise = share_based_comp_exercise
+        self.share_based_comp_exercise_price = share_based_comp_exercise_price
+        self.share_based_comp_outstanding = share_based_comp_outstanding
+
 
 class GAAPSerializer(Serializer):
     accumulated_other = fields.Number()
     stockholders_equity = fields.Number()
     cash_and_cash = fields.Number()
+    stockholders_equity = fields.Number()
     shares_outstanding = fields.Number()
+    valuation_allowance = fields.Number()
+    share_based_comp = fields.Number()
+    share_based_comp_exercise = fields.Number()
+    share_based_comp_exercise_price = fields.Number()
+    share_based_comp_outstanding = fields.Number()
+
+
+class Unique(object):
+    def __init__(self):
+        return None
