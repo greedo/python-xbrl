@@ -62,6 +62,10 @@ class XBRLParser(object):
         '''
         gaap_obj = GAAP()
 
+        revenues = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(revenue)",re.IGNORECASE|re.MULTILINE))
+        if revenues:
+            gaap_obj.revenue = self.total_elements(revenues)
+
         accumulated_other = xbrl.find(re.compile('^us-gaap:accumulatedothercomprehensiveincomelossnetoftax\s*'))
         if accumulated_other:
             gaap_obj.accumulated_other = accumulated_other.text
@@ -116,6 +120,19 @@ class XBRLParser(object):
 
         return unique_obj
 
+    @staticmethod
+    def total_elements(elements):
+
+        elements_total = 0
+        for element in elements:
+            element_conv = 0
+            try:
+                element_conv = int(element.text)
+            except ValueError:
+                pass
+            if element_conv is not None:
+                elements_total += element_conv
+        return elements_total
 
 #Preprocessing to fix broken XML
 # TODO - Run tests to see if other XML processing errors can occur
@@ -164,6 +181,7 @@ class XBRL(object):
 
 class GAAP(object):
     def __init__(self,
+                 revenue=None,
                  accumulated_other=None,
                  stockholders_equity=None,
                  cash_and_cash=None,
@@ -173,6 +191,7 @@ class GAAP(object):
                  share_based_comp_exercise=None,
                  share_based_comp_exercise_price=None,
                  share_based_comp_outstanding=None):
+        self.revenue = revenue
         self.accumulated_other = accumulated_other
         self.cash_and_cash = cash_and_cash
         self.stockholders_equity = stockholders_equity
@@ -185,6 +204,7 @@ class GAAP(object):
 
 
 class GAAPSerializer(Serializer):
+    revenue = fields.Number()
     accumulated_other = fields.Number()
     stockholders_equity = fields.Number()
     cash_and_cash = fields.Number()
