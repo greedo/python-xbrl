@@ -62,6 +62,28 @@ class XBRLParser(object):
         '''
         gaap_obj = GAAP()
 
+        assets = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(assets)",re.IGNORECASE|re.MULTILINE))
+        if assets:
+            gaap_obj.assets = self.total_elements(assets)
+
+        current_assets = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(currentassets)",re.IGNORECASE|re.MULTILINE))
+        if current_assets:
+            gaap_obj.current_assets = self.total_elements(current_assets)
+
+        non_current_assets = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(assetsnoncurrent)",re.IGNORECASE|re.MULTILINE))
+        if non_current_assets == 0 or not non_current_assets:
+            gaap_obj.non_current_assets = gaap_obj.current_assets - gaap_obj.assets
+        else:
+            gaap_obj.non_current_assets = self.total_elements(non_current_assets)
+
+        liabilities = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(liabilities)",re.IGNORECASE|re.MULTILINE))
+        if liabilities:
+            gaap_obj.liabilities = self.total_elements(liabilities)
+
+        current_liabilities = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(currentliabilities)",re.IGNORECASE|re.MULTILINE))
+        if current_liabilities:
+            gaap_obj.current_liabilities = self.total_elements(current_liabilities)
+
         revenues = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(revenue)",re.IGNORECASE|re.MULTILINE))
         if revenues:
             gaap_obj.revenue = self.total_elements(revenues)
@@ -181,6 +203,11 @@ class XBRL(object):
 
 class GAAP(object):
     def __init__(self,
+                 assets=None,
+                 current_assets=None,
+                 non_current_assets=None,
+                 liabilities=None,
+                 current_liabilities=None,
                  revenue=None,
                  accumulated_other=None,
                  stockholders_equity=None,
@@ -191,6 +218,11 @@ class GAAP(object):
                  share_based_comp_exercise=None,
                  share_based_comp_exercise_price=None,
                  share_based_comp_outstanding=None):
+        self.assets = assets
+        self.current_assets = current_assets
+        self.non_current_assets = non_current_assets
+        self.liabilities = liabilities
+        self.current_liabilities = current_liabilities
         self.revenue = revenue
         self.accumulated_other = accumulated_other
         self.cash_and_cash = cash_and_cash
@@ -204,6 +236,11 @@ class GAAP(object):
 
 
 class GAAPSerializer(Serializer):
+    assets = fields.Number()
+    current_assets = fields.Number()
+    non_current_assets = fields.Number()
+    liabilities = fields.Number()
+    current_liabilities =fields.Number()
     revenue = fields.Number()
     accumulated_other = fields.Number()
     stockholders_equity = fields.Number()
