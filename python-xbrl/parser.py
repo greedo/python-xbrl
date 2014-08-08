@@ -76,6 +76,10 @@ class XBRLParser(object):
         else:
             gaap_obj.non_current_assets = self.total_elements(non_current_assets)
 
+        liabilities_and_equity = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(liabilitiesand)",re.IGNORECASE|re.MULTILINE))
+        if liabilities_and_equity:
+            gaap_obj.liabilities_and_equity = self.total_elements(liabilities_and_equity)
+
         liabilities = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(liabilities)",re.IGNORECASE|re.MULTILINE))
         if liabilities:
             gaap_obj.liabilities = self.total_elements(liabilities)
@@ -88,17 +92,36 @@ class XBRLParser(object):
         if noncurrent_liabilities:
             gaap_obj.noncurrent_liabilities = self.total_elements(noncurrent_liabilities)
 
-        commitments_and_contingencies = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(commitmentsandcontingencies)",re.IGNORECASE|re.MULTILINE))
+        commitments_and_contingencies = xbrl.findAll(name=re.compile("(us-gaap:commitmentsandcontingencies)",re.IGNORECASE|re.MULTILINE))
         if commitments_and_contingencies:
             gaap_obj.commitments_and_contingencies = self.total_elements(commitments_and_contingencies)
 
+        redeemable_noncontrolling_interest = xbrl.findAll(name=re.compile("(us-gaap:redeemablenoncontrollinginterestequity)",re.IGNORECASE|re.MULTILINE))
+        if redeemable_noncontrolling_interest:
+            gaap_obj.redeemable_noncontrolling_interest = self.total_elements(redeemable_noncontrolling_interest)
+
         temporary_equity = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(temporaryequity)",re.IGNORECASE|re.MULTILINE))
         if temporary_equity:
-            gaap_obj.temporary_equity = self.total_elements(temporary_equity)
+            gaap_obj.temporary_equity = self.total_elements(temporary_equity) + gaap_obj.redeemable_noncontrolling_interest
 
         equity = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(equity)",re.IGNORECASE|re.MULTILINE))
         if equity:
             gaap_obj.equity = self.total_elements(equity)
+
+        equity_attributable_interest = xbrl.findAll(name=re.compile("(us-gaap:minorityinterest)",re.IGNORECASE|re.MULTILINE))
+        equity_attributable_interest += xbrl.findAll(name=re.compile("(us-gaap:partnerscapitalattributabletononcontrollinginterest)",re.IGNORECASE|re.MULTILINE))
+        if equity_attributable_interest:
+            gaap_obj.equity_attributable_interest = self.total_elements(equity_attributable_interest)
+
+        equity_attributable_parent = xbrl.findAll(name=re.compile("(us-gaap:liabilitiesandpartnerscapital)",re.IGNORECASE|re.MULTILINE))
+        equity_attributable_parent += xbrl.findAll(name=re.compile("(us-gaap:stockholdersequity)",re.IGNORECASE|re.MULTILINE))
+        if equity_attributable_parent:
+            gaap_obj.equity_attributable_parent = self.total_elements(equity_attributable_parent)
+
+
+
+
+
 
         revenues = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(revenue)",re.IGNORECASE|re.MULTILINE))
         if revenues:
@@ -139,6 +162,10 @@ class XBRLParser(object):
         comprehensive_income_parent = xbrl.findAll(name=re.compile("(us-gaap:comprehensiveincomenetoftax)",re.IGNORECASE|re.MULTILINE))
         if comprehensive_income_parent:
             gaap_obj.comprehensive_income_parent = self.total_elements(comprehensive_income_parent)
+
+        comprehensive_income_interest = xbrl.findAll(name=re.compile("(us-gaap:comprehensiveincomenetoftaxattributabletononcontrollinginterest)",re.IGNORECASE|re.MULTILINE))
+        if comprehensive_income_interest:
+            gaap_obj.comprehensive_income_interest = self.total_elements(comprehensive_income_interest)
 
         return gaap_obj
 
@@ -234,51 +261,66 @@ class GAAP(object):
                  assets=None,
                  current_assets=None,
                  non_current_assets=None,
+                 liabilities_and_equity=None,
                  liabilities=None,
                  current_liabilities=None,
                  noncurrent_liabilities=None,
                  commitments_and_contingencies=None,
+                 redeemable_noncontrolling_interest=None,
                  temporary_equity=None,
                  equity=None,
+                 equity_attributable_interest=None,
+                 equity_attributable_parent=None,
                  revenue=None,
                  gross_profit=None,
                  costs_and_expenses=None,
                  other_operating_income=None,
                  comprehensive_income=None,
-                 comprehensive_income_parent=None):
+                 comprehensive_income_parent=None,
+                 comprehensive_income_interest=None):
         self.assets = assets
         self.current_assets = current_assets
         self.non_current_assets = non_current_assets
+        self.liabilities_and_equity = liabilities_and_equity
         self.liabilities = liabilities
         self.current_liabilities = current_liabilities
         self.noncurrentLiabilities = noncurrent_liabilities
         self.commitments_and_contingencies = commitments_and_contingencies
+        self.redeemable_noncontrolling_interest = redeemable_noncontrolling_interest
         self.temporary_equity = temporary_equity
         self.equity = equity
+        self.equity_attributable_interest = equity_attributable_interest
+        self.equity_attributable_parent = equity_attributable_parent
         self.revenue = revenue
         self.gross_profit = gross_profit
         self.costs_and_expenses = costs_and_expenses 
         self.other_operating_income = other_operating_income
         self.comprehensive_income = comprehensive_income
         self.comprehensive_income_parent = comprehensive_income_parent
+        self.comprehensive_income_interest = comprehensive_income_interest
 
 
 class GAAPSerializer(Serializer):
     assets = fields.Number()
     current_assets = fields.Number()
     non_current_assets = fields.Number()
+    liabilities_and_equity = fields.Number()
     liabilities = fields.Number()
     current_liabilities = fields.Number()
     noncurrent_liabilities = fields.Number()
     commitments_and_contingencies = fields.Number()
+    redeemable_noncontrolling_interest = fields.Number()
     temporary_equity = fields.Number()
     equity = fields.Number()
+    equity_attributable_interest = fields.Number()
+    equity_attributable_parent = fields.Number()
     revenue = fields.Number()
     gross_profit = fields.Number()
     costs_and_expenses = fields.Number()
     other_operating_income = fields.Number()
     comprehensive_income = fields.Number()
     comprehensive_income_parent = fields.Number()
+    comprehensive_income_interest = fields.Number()
 
 
 class Unique(object):
