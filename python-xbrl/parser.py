@@ -84,49 +84,61 @@ class XBRLParser(object):
         if current_liabilities:
             gaap_obj.current_liabilities = self.total_elements(current_liabilities)
 
+        noncurrent_liabilities = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(noncurrentliabilities)",re.IGNORECASE|re.MULTILINE))
+        if noncurrent_liabilities:
+            gaap_obj.noncurrent_liabilities = self.total_elements(noncurrent_liabilities)
+
+        commitments_and_contingencies = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(commitmentsandcontingencies)",re.IGNORECASE|re.MULTILINE))
+        if commitments_and_contingencies:
+            gaap_obj.commitments_and_contingencies = self.total_elements(commitments_and_contingencies)
+
+        temporary_equity = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(temporaryequity)",re.IGNORECASE|re.MULTILINE))
+        if temporary_equity:
+            gaap_obj.temporary_equity = self.total_elements(temporary_equity)
+
+        equity = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(equity)",re.IGNORECASE|re.MULTILINE))
+        if equity:
+            gaap_obj.equity = self.total_elements(equity)
+
         revenues = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(revenue)",re.IGNORECASE|re.MULTILINE))
         if revenues:
             gaap_obj.revenue = self.total_elements(revenues)
 
-        accumulated_other = xbrl.find(re.compile('^us-gaap:accumulatedothercomprehensiveincomelossnetoftax\s*'))
-        if accumulated_other:
-            gaap_obj.accumulated_other = accumulated_other.text
+        gross_profit = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(grossprofit)",re.IGNORECASE|re.MULTILINE))
+        if gross_profit:
+            gaap_obj.gross_profit = self.total_elements(gross_profit)
 
-        stockholders_equity = xbrl.find(re.compile('^us-gaap:stockholdersequity\s*'))
-        if stockholders_equity:
-            gaap_obj.stockholders_equity = stockholders_equity.text
+        costs_and_expenses = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(costsandexpenses)",re.IGNORECASE|re.MULTILINE))
+        if costs_and_expenses:
+            gaap_obj.costs_and_expenses = self.total_elements(costs_and_expenses)
 
-        cash_and_cash = xbrl.find(re.compile('^us-gaap:cashandcashequivalentsatcarryingvalue\s*'))
-        if cash_and_cash:
-            gaap_obj.cash_and_cash = cash_and_cash.text
+        other_operating_income = xbrl.findAll(name=re.compile("(us-gaap:otheroperatingincome)",re.IGNORECASE|re.MULTILINE))
+        if other_operating_income:
+            gaap_obj.other_operating_income = other_operating_income
 
-        shares_outstanding = xbrl.find(re.compile('^us-gaap:sharesoutstanding\s*'))
-        if shares_outstanding:
-            gaap_obj.shares_outstanding = shares_outstanding.text
+        operating_income_loss = xbrl.findAll(name=re.compile("(us-gaap:otheroperatingincome)",re.IGNORECASE|re.MULTILINE))
+        if operating_income_loss:
+            gaap_obj.operating_income_loss = operating_income_loss
 
-        valuation_allowance = xbrl.find(re.compile('^us-gaap:valuationallowancesandreservesbalance\s*'))
-        if valuation_allowance:
-            gaap_obj.valuation_allowance = valuation_allowance.text
+        nonoperating_income_loss = xbrl.findAll(name=re.compile("(us-gaap:nonoperatingincomeloss)",re.IGNORECASE|re.MULTILINE))
+        if nonoperating_income_loss:
+            gaap_obj.nonoperating_income_loss = nonoperating_income_loss
 
-        share_based_comp = xbrl.find(re.compile('^us-gaap:sharebasedcompensationarrangementbysharebased\
-        paymentawardequityinstrumentsotherthanoptionsnonvestednumber\s*'))
-        if share_based_comp:
-            gaap_obj.share_based_comp = share_based_comp.text
+        interest_and_debt_expense = xbrl.findAll(name=re.compile("(us-gaap:interestanddebtexpense)",re.IGNORECASE|re.MULTILINE))
+        if interest_and_debt_expense:
+            gaap_obj.interest_and_debt_expense = interest_and_debt_expense
 
-        share_based_comp_exercise = xbrl.find(re.compile('^us-gaap:sharebasedcompensationarrangementby\
-        sharebasedpaymentawardoptionsexercisablenumber\s*'))
-        if share_based_comp_exercise:
-            gaap_obj.share_based_comp_exercise = share_based_comp_exercise.text
+        net_income_shareholders = xbrl.findAll(name=re.compile("(us-gaap:netincomeavailabletocommonstockholdersbasic)",re.IGNORECASE|re.MULTILINE))
+        if net_income_shareholders:
+            gaap_obj.net_income_shareholders = net_income_shareholders
 
-        share_based_comp_exercise_price = xbrl.find(re.compile('^us-gaap:sharebasedcompensationarrangement\
-        bysharebasedpaymentwwardoptionsoutstandingweightedaverageexerciseprice\s*'))
-        if share_based_comp_exercise_price:
-            gaap_obj.share_based_comp_exercise_price = share_based_comp_exercise_price.text
+        comprehensive_income = xbrl.findAll(name=re.compile("(us-gaap:comprehensiveincome)",re.IGNORECASE|re.MULTILINE))
+        if comprehensive_income:
+            gaap_obj.comprehensive_income = self.total_elements(comprehensive_income)
 
-        share_based_comp_outstanding = xbrl.find(re.compile('^us-gaap:sharebasedcompensationarrangementby\
-        sharebasedpaymentawardoptionsoutstandingnumber\s*'))
-        if share_based_comp_outstanding:
-            gaap_obj.share_based_comp_outstanding = share_based_comp_outstanding.text
+        comprehensive_income_parent = xbrl.findAll(name=re.compile("(us-gaap:comprehensiveincomenetoftax)",re.IGNORECASE|re.MULTILINE))
+        if comprehensive_income_parent:
+            gaap_obj.comprehensive_income_parent = self.total_elements(comprehensive_income_parent)
 
         return gaap_obj
 
@@ -142,19 +154,35 @@ class XBRLParser(object):
 
         return unique_obj
 
+    @classmethod
+    def parseUnique(self, xbrl):
+        '''
+        Parse company unique entities in xbrl-land and return an Unique object.
+        '''
+        unique_obj = Unique()
+
+        unique_data = xbrl.findAll(re.compile('^(?!us-gaap|xbrll):\s*'))
+        print unique_data[0]
+
+        return unique_obj
+
+    @staticmethod
+    def is_number(s):
+        try:
+            s = float(s)
+            return True
+        except ValueError:
+            return False
+
     @staticmethod
     def total_elements(elements):
 
         elements_total = 0
         for element in elements:
-            element_conv = 0
-            try:
-                element_conv = int(element.text)
-            except ValueError:
-                pass
-            if element_conv is not None:
-                elements_total += element_conv
+            if XBRLParser().is_number(element.text):
+                elements_total += float(element.text)
         return elements_total
+
 
 #Preprocessing to fix broken XML
 # TODO - Run tests to see if other XML processing errors can occur
@@ -208,31 +236,31 @@ class GAAP(object):
                  non_current_assets=None,
                  liabilities=None,
                  current_liabilities=None,
+                 noncurrent_liabilities=None,
+                 commitments_and_contingencies=None,
+                 temporary_equity=None,
+                 equity=None,
                  revenue=None,
-                 accumulated_other=None,
-                 stockholders_equity=None,
-                 cash_and_cash=None,
-                 shares_outstanding=None,
-                 valuation_allowance=None,
-                 share_based_comp=None,
-                 share_based_comp_exercise=None,
-                 share_based_comp_exercise_price=None,
-                 share_based_comp_outstanding=None):
+                 gross_profit=None,
+                 costs_and_expenses=None,
+                 other_operating_income=None,
+                 comprehensive_income=None,
+                 comprehensive_income_parent=None):
         self.assets = assets
         self.current_assets = current_assets
         self.non_current_assets = non_current_assets
         self.liabilities = liabilities
         self.current_liabilities = current_liabilities
+        self.noncurrentLiabilities = noncurrent_liabilities
+        self.commitments_and_contingencies = commitments_and_contingencies
+        self.temporary_equity = temporary_equity
+        self.equity = equity
         self.revenue = revenue
-        self.accumulated_other = accumulated_other
-        self.cash_and_cash = cash_and_cash
-        self.stockholders_equity = stockholders_equity
-        self.shares_outstanding = shares_outstanding
-        self.valuation_allowance = valuation_allowance
-        self.share_based_comp = share_based_comp
-        self.share_based_comp_exercise = share_based_comp_exercise
-        self.share_based_comp_exercise_price = share_based_comp_exercise_price
-        self.share_based_comp_outstanding = share_based_comp_outstanding
+        self.gross_profit = gross_profit
+        self.costs_and_expenses = costs_and_expenses 
+        self.other_operating_income = other_operating_income
+        self.comprehensive_income = comprehensive_income
+        self.comprehensive_income_parent = comprehensive_income_parent
 
 
 class GAAPSerializer(Serializer):
@@ -240,18 +268,17 @@ class GAAPSerializer(Serializer):
     current_assets = fields.Number()
     non_current_assets = fields.Number()
     liabilities = fields.Number()
-    current_liabilities =fields.Number()
+    current_liabilities = fields.Number()
+    noncurrent_liabilities = fields.Number()
+    commitments_and_contingencies = fields.Number()
+    temporary_equity = fields.Number()
+    equity = fields.Number()
     revenue = fields.Number()
-    accumulated_other = fields.Number()
-    stockholders_equity = fields.Number()
-    cash_and_cash = fields.Number()
-    stockholders_equity = fields.Number()
-    shares_outstanding = fields.Number()
-    valuation_allowance = fields.Number()
-    share_based_comp = fields.Number()
-    share_based_comp_exercise = fields.Number()
-    share_based_comp_exercise_price = fields.Number()
-    share_based_comp_outstanding = fields.Number()
+    gross_profit = fields.Number()
+    costs_and_expenses = fields.Number()
+    other_operating_income = fields.Number()
+    comprehensive_income = fields.Number()
+    comprehensive_income_parent = fields.Number()
 
 
 class Unique(object):
