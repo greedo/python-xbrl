@@ -119,17 +119,23 @@ class XBRLParser(object):
             gaap_obj.equity_attributable_parent = self.total_elements(equity_attributable_parent)
 
 
-
-
-
-
+        ### Incomes ###
         revenues = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(revenue)",re.IGNORECASE|re.MULTILINE))
         if revenues:
             gaap_obj.revenue = self.total_elements(revenues)
 
+        cost_of_revenue = xbrl.findAll(name=re.compile("(us-gaap:costofrevenue)",re.IGNORECASE|re.MULTILINE))
+        cost_of_revenue += xbrl.findAll(name=re.compile("(us-gaap:costffservices)",re.IGNORECASE|re.MULTILINE))
+        cost_of_revenue += xbrl.findAll(name=re.compile("(us-gaap:costofgoodssold)",re.IGNORECASE|re.MULTILINE))
+        cost_of_revenue += xbrl.findAll(name=re.compile("(us-gaap:costofgoodsandservicessold)",re.IGNORECASE|re.MULTILINE))
+
         gross_profit = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(grossprofit)",re.IGNORECASE|re.MULTILINE))
         if gross_profit:
             gaap_obj.gross_profit = self.total_elements(gross_profit)
+
+        operating_expenses = xbrl.findAll(name=re.compile("(us-gaap:operating)[^s]*(expenses)",re.IGNORECASE|re.MULTILINE))
+        if operating_expenses:
+            gaap_obj.operating_expenses = self.total_elements(operating_expenses)
 
         costs_and_expenses = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(costsandexpenses)",re.IGNORECASE|re.MULTILINE))
         if costs_and_expenses:
@@ -150,6 +156,18 @@ class XBRLParser(object):
         interest_and_debt_expense = xbrl.findAll(name=re.compile("(us-gaap:interestanddebtexpense)",re.IGNORECASE|re.MULTILINE))
         if interest_and_debt_expense:
             gaap_obj.interest_and_debt_expense = interest_and_debt_expense
+
+        income_before_equity_investments = xbrl.findAll(name=re.compile("(us-gaap:incomelossfromcontinuingoperationsbeforeincometaxesminorityinterest)",re.IGNORECASE|re.MULTILINE))
+        if income_before_equity_investments:
+            gaap_obj.income_before_equity_investments = income_before_equity_investments
+
+        income_from_equity_investments = xbrl.findAll(name=re.compile("(us-gaap:incomelossfromequitymethodinvestments)",re.IGNORECASE|re.MULTILINE))
+        if income_from_equity_investments:
+            gaap_obj.income_from_equity_investments = income_from_equity_investments
+
+        income_tax_expense_benefit = xbrl.findAll(name=re.compile("(us-gaap:incometaxexpensebenefit)",re.IGNORECASE|re.MULTILINE))
+        if income_tax_expense_benefit:
+            gaap_obj.income_tax_expense_benefit = income_tax_expense_benefit
 
         net_income_shareholders = xbrl.findAll(name=re.compile("(us-gaap:netincomeavailabletocommonstockholdersbasic)",re.IGNORECASE|re.MULTILINE))
         if net_income_shareholders:
@@ -272,9 +290,12 @@ class GAAP(object):
                  equity_attributable_interest=None,
                  equity_attributable_parent=None,
                  revenue=None,
+                 cost_of_revenue=None,
                  gross_profit=None,
                  costs_and_expenses=None,
                  other_operating_income=None,
+                 operating_income_loss=None,
+                 nonoperating_income_loss=None,
                  comprehensive_income=None,
                  comprehensive_income_parent=None,
                  comprehensive_income_interest=None):
@@ -292,9 +313,12 @@ class GAAP(object):
         self.equity_attributable_interest = equity_attributable_interest
         self.equity_attributable_parent = equity_attributable_parent
         self.revenue = revenue
+        self.cost_of_revenue = cost_of_revenue
         self.gross_profit = gross_profit
         self.costs_and_expenses = costs_and_expenses 
         self.other_operating_income = other_operating_income
+        self.nonoperating_income_loss = nonoperating_income_loss
+        self.operating_income_loss = operating_income_loss
         self.comprehensive_income = comprehensive_income
         self.comprehensive_income_parent = comprehensive_income_parent
         self.comprehensive_income_interest = comprehensive_income_interest
@@ -315,9 +339,13 @@ class GAAPSerializer(Serializer):
     equity_attributable_interest = fields.Number()
     equity_attributable_parent = fields.Number()
     revenue = fields.Number()
+    cost_of_revenue = fields.Number()
     gross_profit = fields.Number()
+    operating_expenses = fields.Number()
     costs_and_expenses = fields.Number()
     other_operating_income = fields.Number()
+    operating_income_loss = fields.Number()
+    nonoperating_income_loss = fields.Number()
     comprehensive_income = fields.Number()
     comprehensive_income_parent = fields.Number()
     comprehensive_income_interest = fields.Number()
