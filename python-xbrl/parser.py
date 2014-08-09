@@ -143,35 +143,70 @@ class XBRLParser(object):
 
         other_operating_income = xbrl.findAll(name=re.compile("(us-gaap:otheroperatingincome)",re.IGNORECASE|re.MULTILINE))
         if other_operating_income:
-            gaap_obj.other_operating_income = other_operating_income
+            gaap_obj.other_operating_income = self.total_elements(other_operating_income)
 
         operating_income_loss = xbrl.findAll(name=re.compile("(us-gaap:otheroperatingincome)",re.IGNORECASE|re.MULTILINE))
         if operating_income_loss:
-            gaap_obj.operating_income_loss = operating_income_loss
+            gaap_obj.operating_income_loss = self.total_elements(operating_income_loss)
 
         nonoperating_income_loss = xbrl.findAll(name=re.compile("(us-gaap:nonoperatingincomeloss)",re.IGNORECASE|re.MULTILINE))
         if nonoperating_income_loss:
-            gaap_obj.nonoperating_income_loss = nonoperating_income_loss
+            gaap_obj.nonoperating_income_loss = self.total_elements(nonoperating_income_loss)
 
         interest_and_debt_expense = xbrl.findAll(name=re.compile("(us-gaap:interestanddebtexpense)",re.IGNORECASE|re.MULTILINE))
         if interest_and_debt_expense:
-            gaap_obj.interest_and_debt_expense = interest_and_debt_expense
+            gaap_obj.interest_and_debt_expense = self.total_elements(interest_and_debt_expense)
 
         income_before_equity_investments = xbrl.findAll(name=re.compile("(us-gaap:incomelossfromcontinuingoperationsbeforeincometaxesminorityinterest)",re.IGNORECASE|re.MULTILINE))
         if income_before_equity_investments:
-            gaap_obj.income_before_equity_investments = income_before_equity_investments
+            gaap_obj.income_before_equity_investments = self.total_elements(income_before_equity_investments)
 
         income_from_equity_investments = xbrl.findAll(name=re.compile("(us-gaap:incomelossfromequitymethodinvestments)",re.IGNORECASE|re.MULTILINE))
         if income_from_equity_investments:
-            gaap_obj.income_from_equity_investments = income_from_equity_investments
+            gaap_obj.income_from_equity_investments = self.total_elements(income_from_equity_investments)
 
         income_tax_expense_benefit = xbrl.findAll(name=re.compile("(us-gaap:incometaxexpensebenefit)",re.IGNORECASE|re.MULTILINE))
         if income_tax_expense_benefit:
-            gaap_obj.income_tax_expense_benefit = income_tax_expense_benefit
+            gaap_obj.income_tax_expense_benefit = self.total_elements(income_tax_expense_benefit)
+
+        income_continuing_operations_tax = xbrl.findAll(name=re.compile("(us-gaap:IncomeLossBeforeExtraordinaryItemsAndCumulativeEffectOfChangeInAccountingPrinciple)",re.IGNORECASE|re.MULTILINE))
+        if income_continuing_operations_tax:
+            gaap_obj.income_continuing_operations_tax = self.total_elements(income_continuing_operations_tax)
+
+        income_discontinued_operations = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(discontinuedoperation)",re.IGNORECASE|re.MULTILINE))
+        if income_discontinued_operations:
+            gaap_obj.income_discontinued_operations = self.total_elements(income_discontinued_operations)
+
+        extraordary_items_gain_loss = xbrl.findAll(name=re.compile("(us-gaap:extraordinaryitemnetoftax)",re.IGNORECASE|re.MULTILINE))
+        if extraordary_items_gain_loss:
+            gaap_obj.extraordary_items_gain_loss = self.total_elements(extraordary_items_gain_loss)
+
+        income_loss = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(incomeloss)",re.IGNORECASE|re.MULTILINE))
+        if income_loss:
+            gaap_obj.income_loss = self.total_elements(income_loss)
+        income_loss += xbrl.findAll(name=re.compile("(us-gaap:profitloss)",re.IGNORECASE|re.MULTILINE))
+        if income_loss:
+            gaap_obj.income_loss = self.total_elements(income_loss)
 
         net_income_shareholders = xbrl.findAll(name=re.compile("(us-gaap:netincomeavailabletocommonstockholdersbasic)",re.IGNORECASE|re.MULTILINE))
         if net_income_shareholders:
-            gaap_obj.net_income_shareholders = net_income_shareholders
+            gaap_obj.net_income_shareholders = self.total_elements(net_income_shareholders)
+
+        preferred_stock_dividends = xbrl.findAll(name=re.compile("(us-gaap:preferredstockdividendsandotheradjustments)",re.IGNORECASE|re.MULTILINE))
+        if preferred_stock_dividends:
+            gaap_obj.preferred_stock_dividends = self.total_elements(preferred_stock_dividends)
+
+        net_income_loss_noncontrolling = xbrl.findAll(name=re.compile("(us-gaap:netincomelossattributabletononcontrollinginterest)",re.IGNORECASE|re.MULTILINE))
+        if net_income_loss_noncontrolling:
+            gaap_obj.net_income_loss_noncontrolling = self.total_elements(net_income_loss_noncontrolling)
+        
+        net_income_parent = xbrl.findAll(name=re.compile("(us-gaap:netincomeloss)",re.IGNORECASE|re.MULTILINE))
+        if net_income_parent:
+            gaap_obj.net_income_parent = self.total_elements(net_income_parent)
+
+        other_comprehensive_income = xbrl.findAll(name=re.compile("(us-gaap:othercomprehensiveincomelossnetoftax)",re.IGNORECASE|re.MULTILINE))
+        if other_comprehensive_income:
+            gaap_obj.other_comprehensive_income = self.total_elements(other_comprehensive_income)
 
         comprehensive_income = xbrl.findAll(name=re.compile("(us-gaap:comprehensiveincome)",re.IGNORECASE|re.MULTILINE))
         if comprehensive_income:
@@ -184,6 +219,44 @@ class XBRLParser(object):
         comprehensive_income_interest = xbrl.findAll(name=re.compile("(us-gaap:comprehensiveincomenetoftaxattributabletononcontrollinginterest)",re.IGNORECASE|re.MULTILINE))
         if comprehensive_income_interest:
             gaap_obj.comprehensive_income_interest = self.total_elements(comprehensive_income_interest)
+
+        ### Cash flow statement ###
+        net_cash_flows_operating = xbrl.findAll(name=re.compile("(us-gaap:netcashprovidedbyusedinoperatingactivities)",re.IGNORECASE|re.MULTILINE))
+        if net_cash_flows_operating:
+            gaap_obj.net_cash_flows_operating = self.total_elements(net_cash_flows_operating)
+
+        net_cash_flows_investing = xbrl.findAll(name=re.compile("(us-gaap:netcashprovidedbyusedininvestingactivities)",re.IGNORECASE|re.MULTILINE))
+        if net_cash_flows_investing:
+            gaap_obj.net_cash_flows_investing = self.total_elements(net_cash_flows_investing)
+
+        net_cash_flows_financing = xbrl.findAll(name=re.compile("(us-gaap:netcashprovidedbyusedinfinancingactivities)",re.IGNORECASE|re.MULTILINE))
+        if net_cash_flows_financing:
+            gaap_obj.net_cash_flows_financing = self.total_elements(net_cash_flows_financing)
+
+        net_cash_flows_operating_continuing = xbrl.findAll(name=re.compile("(us-gaap:netcashprovidedbyusedinoperatingactivitiescontinuingoperations)",re.IGNORECASE|re.MULTILINE))
+        if net_cash_flows_operating_continuing:
+            gaap_obj.net_cash_flows_operating_continuing = self.total_elements(net_cash_flows_operating_continuing)
+
+        
+        net_cash_flows_investing_continuing = xbrl.findAll(name=re.compile("(us-gaap:netcashprovidedbyusedininvestingactivitiescontinuingoperations)",re.IGNORECASE|re.MULTILINE))
+        if net_cash_flows_investing_continuing:
+            gaap_obj.net_cash_flows_investing_continuing = self.total_elements(net_cash_flows_investing_continuing)
+                        
+        net_cash_flows_financing_continuing = xbrl.findAll(name=re.compile("(us-gaap:netcashprovidedbyusedinfinancingactivitiescontinuingoperations)",re.IGNORECASE|re.MULTILINE))
+        if net_cash_flows_financing_continuing:
+            gaap_obj.net_cash_flows_financing_continuing = self.total_elements(net_cash_flows_financing_continuing)
+
+        net_cash_flows_operating_discontinued = xbrl.findAll(name=re.compile("(us-gaap:cashprovidedbyusedinoperatingactivitiesdiscontinuedoperations)",re.IGNORECASE|re.MULTILINE))
+        if net_cash_flows_operating_discontinued:
+            gaap_obj.net_cash_flows_operating_discontinued = self.total_elements(net_cash_flows_operating_discontinued)
+
+        net_cash_flows_investing_discontinued = xbrl.findAll(name=re.compile("(us-gaap:CashProvidedByUsedInInvestingActivitiesDiscontinuedOperations)",re.IGNORECASE|re.MULTILINE))
+        if net_cash_flows_investing_discontinued:
+            gaap_obj.net_cash_flows_investing_discontinued = self.total_elements(net_cash_flows_investing_discontinued)
+
+        net_cash_flows_discontinued = xbrl.findAll(name=re.compile("(us-gaap:netcashprovidedbyusedindiscontinuedoperations)",re.IGNORECASE|re.MULTILINE))
+        if net_cash_flows_discontinued:
+            gaap_obj.net_cash_flows_discontinued = self.total_elements(net_cash_flows_discontinued)
 
         return gaap_obj
 
@@ -296,9 +369,29 @@ class GAAP(object):
                  other_operating_income=None,
                  operating_income_loss=None,
                  nonoperating_income_loss=None,
+                 interest_and_debt_expense=None,
+                 income_before_equity_investments=None,
+                 income_from_equity_investments=None,
+                 income_tax_expense_benefit=None,
+                 extraordary_items_gain_loss=None,
+                 income_loss=None,
+                 net_income_shareholders=None,
+                 preferred_stock_dividends=None,
+                 net_income_loss_noncontrolling=None,
+                 net_income_parent=None,
+                 other_comprehensive_income=None,
                  comprehensive_income=None,
                  comprehensive_income_parent=None,
-                 comprehensive_income_interest=None):
+                 comprehensive_income_interest=None,
+                 net_cash_flows_operating=None,
+                 net_cash_flows_investing=None,
+                 net_cash_flows_financing=None,
+                 net_cash_flows_operating_continuing=None,
+                 net_cash_flows_investing_continuing=None,
+                 net_cash_flows_financing_continuing=None,
+                 net_cash_flows_operating_discontinued=None,
+                 net_cash_flows_investing_discontinued=None,
+                 net_cash_flows_discontinued=None):
         self.assets = assets
         self.current_assets = current_assets
         self.non_current_assets = non_current_assets
@@ -318,10 +411,30 @@ class GAAP(object):
         self.costs_and_expenses = costs_and_expenses 
         self.other_operating_income = other_operating_income
         self.nonoperating_income_loss = nonoperating_income_loss
-        self.operating_income_loss = operating_income_loss
+        self.interest_and_debt_expense = interest_and_debt_expense 
+        self.income_before_equity_investments = income_before_equity_investments
+        self.income_from_equity_investments = income_from_equity_investments
+        self.income_tax_expense_benefit = income_tax_expense_benefit
+        self.net_income_shareholders = net_income_shareholders
+        self.extraordary_items_gain_loss = extraordary_items_gain_loss
+        self.income_loss = income_loss
+        self.net_income_shareholders = net_income_shareholders
+        self.preferred_stock_dividends = preferred_stock_dividends
+        self.net_income_loss_noncontrolling = net_income_loss_noncontrolling
+        self.net_income_parent = net_income_parent
+        self.other_comprehensive_income = other_comprehensive_income
         self.comprehensive_income = comprehensive_income
         self.comprehensive_income_parent = comprehensive_income_parent
         self.comprehensive_income_interest = comprehensive_income_interest
+        self.net_cash_flows_operating = net_cash_flows_operating
+        self.net_cash_flows_investing = net_cash_flows_investing
+        self.net_cash_flows_financing = net_cash_flows_financing
+        self.net_cash_flows_operating_continuing = net_cash_flows_operating_continuing
+        self.net_cash_flows_investing_continuing = net_cash_flows_investing_continuing
+        self.net_cash_flows_financing_continuing = net_cash_flows_financing_continuing
+        self.net_cash_flows_operating_discontinued = net_cash_flows_operating_discontinued
+        self.net_cash_flows_investing_discontinued = net_cash_flows_investing_discontinued
+        self.net_cash_flows_discontinued = net_cash_flows_discontinued
 
 
 class GAAPSerializer(Serializer):
@@ -346,9 +459,29 @@ class GAAPSerializer(Serializer):
     other_operating_income = fields.Number()
     operating_income_loss = fields.Number()
     nonoperating_income_loss = fields.Number()
+    interest_and_debt_expense = fields.Number()
+    income_before_equity_investments = fields.Number()
+    income_from_equity_investments = fields.Number()
+    income_tax_expense_benefit = fields.Number()
+    extraordary_items_gain_loss = fields.Number()
+    income_loss = fields.Number()
+    net_income_shareholders = fields.Number()
+    preferred_stock_dividends = fields.Number()
+    net_income_loss_noncontrolling = fields.Number()
+    net_income_parent= fields.Number()
+    other_comprehensive_income = fields.Number()
     comprehensive_income = fields.Number()
     comprehensive_income_parent = fields.Number()
     comprehensive_income_interest = fields.Number()
+    net_cash_flows_operating = fields.Number()
+    net_cash_flows_investing = fields.Number()
+    net_cash_flows_financing = fields.Number()
+    net_cash_flows_operating_continuing = fields.Number()
+    net_cash_flows_investing_continuing = fields.Number()
+    net_cash_flows_financing_continuing = fields.Number()
+    net_cash_flows_operating_discontinued = fields.Number()
+    net_cash_flows_investing_discontinued = fields.Number()
+    net_cash_flows_discontinued = fields.Number()
 
 
 class Unique(object):
