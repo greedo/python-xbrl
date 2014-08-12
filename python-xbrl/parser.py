@@ -13,6 +13,7 @@ try:
 except ImportError:
     from io import StringIO
 
+
 def soup_maker(fh):
     try:
         from bs4 import BeautifulSoup
@@ -33,8 +34,10 @@ class XBRLFile(object):
         self.headers = odict.OrderedDict()
         self.fh = fh
 
+
 class XBRLParserException(Exception):
     pass
+
 
 class XBRLParser(object):
     @classmethod
@@ -62,86 +65,112 @@ class XBRLParser(object):
         '''
         gaap_obj = GAAP()
 
-        assets = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(assets)",re.IGNORECASE|re.MULTILINE))
+        assets = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(a\
+        ssets)", re.IGNORECASE | re.MULTILINE))
         if assets:
             gaap_obj.assets = self.total_elements(assets)
 
-        current_assets = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(currentassets)",re.IGNORECASE|re.MULTILINE))
+        current_assets = xbrl.findAll(name=re.compile("(us-gaap:)\
+        [^s]*(currentassets)", re.IGNORECASE | re.MULTILINE))
         if current_assets:
             gaap_obj.current_assets = self.total_elements(current_assets)
 
-        non_current_assets = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(assetsnoncurrent)",re.IGNORECASE|re.MULTILINE))
+        non_current_assets = xbrl.findAll(name=re.compile("(us-gaap:)\
+        [^s]*(assetsnoncurrent)", re.IGNORECASE | re.MULTILINE))
         if non_current_assets == 0 or not non_current_assets:
-            gaap_obj.non_current_assets = gaap_obj.current_assets - gaap_obj.assets
+            gaap_obj.non_current_assets = gaap_obj.current_assets - \
+                gaap_obj.assets
         else:
-            gaap_obj.non_current_assets = self.total_elements(non_current_assets)
+            gaap_obj.non_current_assets = \
+                self.total_elements(non_current_assets)
 
-        liabilities_and_equity = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(liabilitiesand)",re.IGNORECASE|re.MULTILINE))
+        liabilities_and_equity = xbrl.findAll(name=re.compile("(us-ga\
+        ap:)[^s]*(liabilitiesand)", re.IGNORECASE | re.MULTILINE))
         if liabilities_and_equity:
-            gaap_obj.liabilities_and_equity = self.total_elements(liabilities_and_equity)
+            gaap_obj.liabilities_and_equity = \
+                self.total_elements(liabilities_and_equity)
 
-        liabilities = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(liabilities)",re.IGNORECASE|re.MULTILINE))
+        liabilities = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(li\
+        abilities)", re.IGNORECASE | re.MULTILINE))
         if liabilities:
             gaap_obj.liabilities = self.total_elements(liabilities)
 
-        current_liabilities = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(currentliabilities)",re.IGNORECASE|re.MULTILINE))
+        current_liabilities = xbrl.findAll(name=re.compile("(us-gaap:)\
+        [^s]*(currentliabilities)", re.IGNORECASE | re.MULTILINE))
         if current_liabilities:
-            gaap_obj.current_liabilities = self.total_elements(current_liabilities)
+            gaap_obj.current_liabilities = \
+                self.total_elements(current_liabilities)
 
-        noncurrent_liabilities = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(noncurrentliabilities)",re.IGNORECASE|re.MULTILINE))
+        noncurrent_liabilities = xbrl.findAll(name=re.compile("(us-gaap:)\
+        [^s]*(noncurrentliabilities)", re.IGNORECASE | re.MULTILINE))
         if noncurrent_liabilities:
-            gaap_obj.noncurrent_liabilities = self.total_elements(noncurrent_liabilities)
+            gaap_obj.noncurrent_liabilities = \
+                self.total_elements(noncurrent_liabilities)
 
-        commitments_and_contingencies = xbrl.findAll(name=re.compile("(us-gaap:commitmentsandcontingencies)",re.IGNORECASE|re.MULTILINE))
+        commitments_and_contingencies = xbrl.findAll(name=re.compile("(us-gaap\
+        :commitmentsandcontingencies)", re.IGNORECASE | re.MULTILINE))
         if commitments_and_contingencies:
-            gaap_obj.commitments_and_contingencies = self.total_elements(commitments_and_contingencies)
+            gaap_obj.commitments_and_contingencies = \
+                self.total_elements(commitments_and_contingencies)
 
-        redeemable_noncontrolling_interest = xbrl.findAll(name=re.compile("(us-gaap:redeemablenoncontrollinginterestequity)",re.IGNORECASE|re.MULTILINE))
+        redeemable_noncontrolling_interest = xbrl.findAll(name=re.compile("(\
+        us-gaap:redeemablenoncontrollinginterestequity)", re.IGNORECASE | \
+                re.MULTILINE))
         if redeemable_noncontrolling_interest:
-            gaap_obj.redeemable_noncontrolling_interest = self.total_elements(redeemable_noncontrolling_interest)
+            gaap_obj.redeemable_noncontrolling_interest = \
+                self.total_elements(redeemable_noncontrolling_interest)
 
-        temporary_equity = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(temporaryequity)",re.IGNORECASE|re.MULTILINE))
+        temporary_equity = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(tem\
+        poraryequity)", re.IGNORECASE | re.MULTILINE))
         if temporary_equity:
-            gaap_obj.temporary_equity = self.total_elements(temporary_equity) + gaap_obj.redeemable_noncontrolling_interest
+            gaap_obj.temporary_equity = self.total_elements(temporary_equity) \
+                + gaap_obj.redeemable_noncontrolling_interest
 
-        equity = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(equity)",re.IGNORECASE|re.MULTILINE))
+        equity = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(equity)", \
+        re.IGNORECASE | re.MULTILINE))
         if equity:
             gaap_obj.equity = self.total_elements(equity)
 
-        equity_attributable_interest = xbrl.findAll(name=re.compile("(us-gaap:minorityinterest)",re.IGNORECASE|re.MULTILINE))
-        equity_attributable_interest += xbrl.findAll(name=re.compile("(us-gaap:partnerscapitalattributabletononcontrollinginterest)",re.IGNORECASE|re.MULTILINE))
+        equity_attributable_interest = xbrl.findAll(name=re.compile("(us-gaap\
+        :minorityinterest)", re.IGNORECASE | re.MULTILINE))
+        equity_attributable_interest += xbrl.findAll(name=re.compile("(us-gaap\
+        :partnerscapitalattributabletononcontrollinginterest)", re.IGNORECASE | re.MULTILINE))
         if equity_attributable_interest:
             gaap_obj.equity_attributable_interest = self.total_elements(equity_attributable_interest)
 
-        equity_attributable_parent = xbrl.findAll(name=re.compile("(us-gaap:liabilitiesandpartnerscapital)",re.IGNORECASE|re.MULTILINE))
-        equity_attributable_parent += xbrl.findAll(name=re.compile("(us-gaap:stockholdersequity)",re.IGNORECASE|re.MULTILINE))
+        equity_attributable_parent = xbrl.findAll(name=re.compile("(us-gaap:\
+        liabilitiesandpartnerscapital)", re.IGNORECASE | re.MULTILINE))
+        equity_attributable_parent += xbrl.findAll(name=re.compile("(us-gaap:\
+        stockholdersequity)", re.IGNORECASE | re.MULTILINE))
         if equity_attributable_parent:
             gaap_obj.equity_attributable_parent = self.total_elements(equity_attributable_parent)
 
-
-        ### Incomes ###
-        revenues = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(revenue)",re.IGNORECASE|re.MULTILINE))
+        # Incomes
+        revenues = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(revenue)", \
+        re.IGNORECASE | re.MULTILINE))
         if revenues:
             gaap_obj.revenue = self.total_elements(revenues)
 
-        cost_of_revenue = xbrl.findAll(name=re.compile("(us-gaap:costofrevenue)",re.IGNORECASE|re.MULTILINE))
-        cost_of_revenue += xbrl.findAll(name=re.compile("(us-gaap:costffservices)",re.IGNORECASE|re.MULTILINE))
-        cost_of_revenue += xbrl.findAll(name=re.compile("(us-gaap:costofgoodssold)",re.IGNORECASE|re.MULTILINE))
-        cost_of_revenue += xbrl.findAll(name=re.compile("(us-gaap:costofgoodsandservicessold)",re.IGNORECASE|re.MULTILINE))
+        cost_of_revenue = xbrl.findAll(name=re.compile("(us-gaap:costofrevenue)", \
+        re.IGNORECASE | re.MULTILINE))
+        cost_of_revenue += xbrl.findAll(name=re.compile("(us-gaap:costffservices)", \
+        re.IGNORECASE | re.MULTILINE))
+        cost_of_revenue += xbrl.findAll(name=re.compile("(us-gaap:costofgoodssold)", re.IGNORECASE | re.MULTILINE))
+        cost_of_revenue += xbrl.findAll(name=re.compile("(us-gaap:costofgoodsandservicessold)", re.IGNORECASE | re.MULTILINE))
 
-        gross_profit = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(grossprofit)",re.IGNORECASE|re.MULTILINE))
+        gross_profit = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(grossprofit)", re.IGNORECASE | re.MULTILINE))
         if gross_profit:
             gaap_obj.gross_profit = self.total_elements(gross_profit)
 
-        operating_expenses = xbrl.findAll(name=re.compile("(us-gaap:operating)[^s]*(expenses)",re.IGNORECASE|re.MULTILINE))
+        operating_expenses = xbrl.findAll(name=re.compile("(us-gaap:operating)[^s]*(expenses)", re.IGNORECASE | re.MULTILINE))
         if operating_expenses:
             gaap_obj.operating_expenses = self.total_elements(operating_expenses)
 
-        costs_and_expenses = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(costsandexpenses)",re.IGNORECASE|re.MULTILINE))
+        costs_and_expenses = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(costsandexpenses)", re.IGNORECASE | re.MULTILINE))
         if costs_and_expenses:
             gaap_obj.costs_and_expenses = self.total_elements(costs_and_expenses)
 
-        other_operating_income = xbrl.findAll(name=re.compile("(us-gaap:otheroperatingincome)",re.IGNORECASE|re.MULTILINE))
+        other_operating_income = xbrl.findAll(name=re.compile("(us-gaap:otheroperatingincome)", re.IGNORECASE | re.MULTILINE))
         if other_operating_income:
             gaap_obj.other_operating_income = self.total_elements(other_operating_income)
 
