@@ -17,7 +17,7 @@ To start using the library, first import the `XBRLParser`
 Simple Parsing Workflow
 -----------------------
 
-First parse the incoming XRBL file into a new XBRL basic object
+First parse the incoming XRBL file into a new `XBRL` basic object
 
     xbrl = XBRLParser.parse(file("sam-20131228.xml"))
     
@@ -25,7 +25,7 @@ Then you can parse the document using different parser
 
     gaap_obj = XBRLParser.parseGAAP(xbrl)
     
-Now we have a GAAP model object that has the GAAP parsed elements from the document.
+Now we have a `GAAP` model object that has the GAAP parsed elements from the document.
 
 You can serialize the GAAP model object into a serialized object acceptable for rending into a standard format such as JSON or HTTP API.
 
