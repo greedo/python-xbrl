@@ -50,7 +50,7 @@ class XBRLParser(object):
         # Store the headers
         xbrl_file = XBRLPreprocessedFile(file_handle)
         xbrl = soup_maker(xbrl_file.fh)
-        if xbrl.find('xbrl') is None:
+        if xbrl.find('xbrl') is None and xbrl.find(name=re.compile("(xbrli:)")) is None:
             raise XBRLParserException('The xbrl file is empty!')
 
         return xbrl
@@ -301,6 +301,8 @@ class XBRLParser(object):
                 elements_total += float(element.text)
         return elements_total
 
+
+#class 10document()
 
 #Preprocessing to fix broken XML
 # TODO - Run tests to see if other XML processing errors can occur
