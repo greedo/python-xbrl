@@ -302,8 +302,6 @@ class XBRLParser(object):
         return elements_total
 
 
-#class 10document()
-
 #Preprocessing to fix broken XML
 # TODO - Run tests to see if other XML processing errors can occur
 class XBRLPreprocessedFile(XBRLFile):
