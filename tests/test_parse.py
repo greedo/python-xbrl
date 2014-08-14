@@ -7,13 +7,14 @@ import six
 
 from parser import soup_maker, XBRLParser, XBRLParserException
 
+
 class TestParse(TestCase):
 
     def testEmptyFile(self):
         fh = six.BytesIO(six.b(""))
         self.assertRaises(XBRLParserException, XBRLParser.parse, fh)
 
-        #def test_parse(self):
+        # def test_parse(self):
         # make sure the shuffled sequence does not lose any elements
 
 
