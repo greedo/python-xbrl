@@ -10,9 +10,12 @@ except ImportError:
 
 from parser import soup_maker, XBRLParser, XBRLParserException
 
-class TestParse():
+
+class TestParse(TestCase):
 
     def testEmptyFile(self):
         fh = StringIO()
         assert XBRLParser.parse(fh) is None
 
+        # def test_parse(self):
+        # make sure the shuffled sequence does not lose any elements
