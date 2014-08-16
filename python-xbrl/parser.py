@@ -334,7 +334,7 @@ class XBRLPreprocessedFile(XBRLFile):
                     new_fh.write("</%s>" % last_open_tag)
                     last_open_tag = None
             if is_open_tag:
-                tag_name = re.findall(r'(?i)<([a-z0-9_\.]+)>', token)[0]
+                tag_name = re.findall(r'(?i)<*>', token)[0]
                 if tag_name.upper() not in closing_tags:
                     last_open_tag = tag_name
             new_fh.write(token)
