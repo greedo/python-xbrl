@@ -68,155 +68,198 @@ class XBRLParser(object):
         '''
         gaap_obj = GAAP()
 
-        assets = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(assets)",re.IGNORECASE|re.MULTILINE))
+        assets = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(assets)",re.IGNORECASE|re.MULTILINE),
+        attrs={"contextref" : re.compile("("+doc_date+")")})
         gaap_obj.assets = self.data_processing(assets, xbrl)
 
-        current_assets = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(currentassets)",re.IGNORECASE|re.MULTILINE))
+        current_assets = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(currentassets)",re.IGNORECASE|re.MULTILINE),
+        attrs={"contextref" : re.compile("("+doc_date+")")})
         gaap_obj.current_assets = self.data_processing(current_assets, xbrl)
 
-        non_current_assets = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(assetsnoncurrent)",re.IGNORECASE|re.MULTILINE))
+        non_current_assets = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(assetsnoncurrent)",re.IGNORECASE|re.MULTILINE),
+        attrs={"contextref" : re.compile("("+doc_date+")")})
         if non_current_assets == 0 or not non_current_assets:
             gaap_obj.non_current_assets = gaap_obj.current_assets - gaap_obj.assets
         else:
-            gaap_obj.non_current_assets = self.total_elements(non_current_assets)
+            gaap_obj.non_current_assets = self.data_processing(non_current_assets, xbrl)
 
-        liabilities_and_equity = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(liabilitiesand)",re.IGNORECASE|re.MULTILINE))
+        liabilities_and_equity = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(liabilitiesand)",re.IGNORECASE|re.MULTILINE),
+        attrs={"contextref" : re.compile("("+doc_date+")")})
         gaap_obj.liabilities_and_equity = self.data_processing(liabilities_and_equity, xbrl)
 
-        liabilities = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(liabilities)",re.IGNORECASE|re.MULTILINE))
+        liabilities = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(liabilities)",re.IGNORECASE|re.MULTILINE),
+        attrs={"contextref" : re.compile("("+doc_date+")")})
         gaap_obj.liabilities = self.data_processing(liabilities, xbrl)
 
-        current_liabilities = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(currentliabilities)",re.IGNORECASE|re.MULTILINE))
+        current_liabilities = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(currentliabilities)",re.IGNORECASE|re.MULTILINE),
+        attrs={"contextref" : re.compile("("+doc_date+")")})
         gaap_obj.current_liabilities = self.data_processing(current_liabilities, xbrl)
 
-        noncurrent_liabilities = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(noncurrentliabilities)",re.IGNORECASE|re.MULTILINE))
+        noncurrent_liabilities = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(noncurrentliabilities)",re.IGNORECASE|re.MULTILINE),
+        attrs={"contextref" : re.compile("("+doc_date+")")})
         gaap_obj.noncurrent_liabilities = self.data_processing(noncurrent_liabilities, xbrl)
 
-        commitments_and_contingencies = xbrl.findAll(name=re.compile("(us-gaap:commitmentsandcontingencies)",re.IGNORECASE|re.MULTILINE))
+        commitments_and_contingencies = xbrl.findAll(name=re.compile("(us-gaap:commitmentsandcontingencies)",re.IGNORECASE|re.MULTILINE),
+        attrs={"contextref" : re.compile("("+doc_date+")")})
         gaap_obj.commitments_and_contingencies = self.data_processing(commitments_and_contingencies, xbrl)
 
-        redeemable_noncontrolling_interest = xbrl.findAll(name=re.compile("(us-gaap:redeemablenoncontrollinginterestequity)",re.IGNORECASE|re.MULTILINE))
+        redeemable_noncontrolling_interest = xbrl.findAll(name=re.compile("(us-gaap:redeemablenoncontrollinginterestequity)",re.IGNORECASE|re.MULTILINE),
+        attrs={"contextref" : re.compile("("+doc_date+")")})
         gaap_obj.redeemable_noncontrolling_interest = self.data_processing(redeemable_noncontrolling_interest, xbrl)
 
-        temporary_equity = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(temporaryequity)",re.IGNORECASE|re.MULTILINE))
+        temporary_equity = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(temporaryequity)",re.IGNORECASE|re.MULTILINE),
+        attrs={"contextref" : re.compile("("+doc_date+")")})
         gaap_obj.temporary_equity = self.data_processing(temporary_equity, xbrl)
 
-        equity = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(equity)",re.IGNORECASE|re.MULTILINE))
+        equity = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(equity)",re.IGNORECASE|re.MULTILINE),
+        attrs={"contextref" : re.compile("("+doc_date+")")})
         gaap_obj.equity = self.data_processing(equity, xbrl)
 
-        equity_attributable_interest = xbrl.findAll(name=re.compile("(us-gaap:minorityinterest)",re.IGNORECASE|re.MULTILINE))
-        equity_attributable_interest += xbrl.findAll(name=re.compile("(us-gaap:partnerscapitalattributabletononcontrollinginterest)",re.IGNORECASE|re.MULTILINE))
+        equity_attributable_interest = xbrl.findAll(name=re.compile("(us-gaap:minorityinterest)",re.IGNORECASE|re.MULTILINE),
+        attrs={"contextref" : re.compile("("+doc_date+")")})
+        equity_attributable_interest += xbrl.findAll(name=re.compile("(us-gaap:partnerscapitalattributabletononcontrollinginterest)",re.IGNORECASE|re.MULTILINE),
+        attrs={"contextref" : re.compile("("+doc_date+")")})
         gaap_obj.equity_attributable_interest = self.data_processing(equity_attributable_interest, xbrl)
 
-        equity_attributable_parent = xbrl.findAll(name=re.compile("(us-gaap:liabilitiesandpartnerscapital)",re.IGNORECASE|re.MULTILINE))
+        equity_attributable_parent = xbrl.findAll(name=re.compile("(us-gaap:liabilitiesandpartnerscapital)",re.IGNORECASE|re.MULTILINE),
+        attrs={"contextref" : re.compile("("+doc_date+")")})
         stockholders_equity = xbrl.findAll(name=re.compile("(us-gaap:stockholdersequity)",re.IGNORECASE|re.MULTILINE),
         attrs={"contextref" : re.compile("("+doc_date+")")})
         gaap_obj.equity_attributable_parent = self.data_processing(equity_attributable_parent, xbrl)
         gaap_obj.stockholders_equity = self.data_processing(stockholders_equity, xbrl)
 
         ### Incomes ###
-        revenues = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(revenue)",re.IGNORECASE|re.MULTILINE))
+        revenues = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(revenue)",re.IGNORECASE|re.MULTILINE),
+        attrs={"contextref" : re.compile("("+doc_date+")")})
         gaap_obj.revenues = self.data_processing(revenues, xbrl)
 
-        cost_of_revenue = xbrl.findAll(name=re.compile("(us-gaap:costofrevenue)",re.IGNORECASE|re.MULTILINE))
-        cost_of_revenue += xbrl.findAll(name=re.compile("(us-gaap:costffservices)",re.IGNORECASE|re.MULTILINE))
-        cost_of_revenue += xbrl.findAll(name=re.compile("(us-gaap:costofgoodssold)",re.IGNORECASE|re.MULTILINE))
-        cost_of_revenue += xbrl.findAll(name=re.compile("(us-gaap:costofgoodsandservicessold)",re.IGNORECASE|re.MULTILINE))
+        cost_of_revenue = xbrl.findAll(name=re.compile("(us-gaap:costofrevenue)",re.IGNORECASE|re.MULTILINE),
+        attrs={"contextref" : re.compile("("+doc_date+")")})
+        cost_of_revenue += xbrl.findAll(name=re.compile("(us-gaap:costffservices)",re.IGNORECASE|re.MULTILINE),
+        attrs={"contextref" : re.compile("("+doc_date+")")})
+        cost_of_revenue += xbrl.findAll(name=re.compile("(us-gaap:costofgoodssold)",re.IGNORECASE|re.MULTILINE),
+        attrs={"contextref" : re.compile("("+doc_date+")")})
+        cost_of_revenue += xbrl.findAll(name=re.compile("(us-gaap:costofgoodsandservicessold)",re.IGNORECASE|re.MULTILINE),
+        attrs={"contextref" : re.compile("("+doc_date+")")})
 
-        gross_profit = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(grossprofit)",re.IGNORECASE|re.MULTILINE))
+        gross_profit = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(grossprofit)",re.IGNORECASE|re.MULTILINE),
+        attrs={"contextref" : re.compile("("+doc_date+")")})
         gaap_obj.gross_profit = self.data_processing(gross_profit, xbrl)
 
-        operating_expenses = xbrl.findAll(name=re.compile("(us-gaap:operating)[^s]*(expenses)",re.IGNORECASE|re.MULTILINE))
+        operating_expenses = xbrl.findAll(name=re.compile("(us-gaap:operating)[^s]*(expenses)",re.IGNORECASE|re.MULTILINE),
+        attrs={"contextref" : re.compile("("+doc_date+")")})
         gaap_obj.operating_expenses = self.data_processing(operating_expenses, xbrl)
 
-        costs_and_expenses = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(costsandexpenses)",re.IGNORECASE|re.MULTILINE))
+        costs_and_expenses = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(costsandexpenses)",re.IGNORECASE|re.MULTILINE),
+        attrs={"contextref" : re.compile("("+doc_date+")")})
         gaap_obj.costs_and_expenses = self.data_processing(costs_and_expenses, xbrl)
 
-        other_operating_income = xbrl.findAll(name=re.compile("(us-gaap:otheroperatingincome)",re.IGNORECASE|re.MULTILINE))
+        other_operating_income = xbrl.findAll(name=re.compile("(us-gaap:otheroperatingincome)",re.IGNORECASE|re.MULTILINE),
+        attrs={"contextref" : re.compile("("+doc_date+")")})
         gaap_obj.other_operating_income = self.data_processing(other_operating_income, xbrl)
 
-        operating_income_loss = xbrl.findAll(name=re.compile("(us-gaap:otheroperatingincome)",re.IGNORECASE|re.MULTILINE))
+        operating_income_loss = xbrl.findAll(name=re.compile("(us-gaap:otheroperatingincome)",re.IGNORECASE|re.MULTILINE),
+        attrs={"contextref" : re.compile("("+doc_date+")")})
         gaap_obj.operating_income_loss = self.data_processing(operating_income_loss, xbrl)
 
-        nonoperating_income_loss = xbrl.findAll(name=re.compile("(us-gaap:nonoperatingincomeloss)",re.IGNORECASE|re.MULTILINE))
+        nonoperating_income_loss = xbrl.findAll(name=re.compile("(us-gaap:nonoperatingincomeloss)",re.IGNORECASE|re.MULTILINE),
+        attrs={"contextref" : re.compile("("+doc_date+")")})
         gaap_obj.nonoperating_income_loss = self.data_processing(nonoperating_income_loss, xbrl)
 
-        interest_and_debt_expense = xbrl.findAll(name=re.compile("(us-gaap:interestanddebtexpense)",re.IGNORECASE|re.MULTILINE))
+        interest_and_debt_expense = xbrl.findAll(name=re.compile("(us-gaap:interestanddebtexpense)",re.IGNORECASE|re.MULTILINE),
+        attrs={"contextref" : re.compile("("+doc_date+")")})
         gaap_obj.interest_and_debt_expense = self.data_processing(interest_and_debt_expense, xbrl)
 
-        income_before_equity_investments = xbrl.findAll(name=re.compile("(us-gaap:incomelossfromcontinuingoperationsbeforeincometaxesminorityinterest)",re.IGNORECASE|re.MULTILINE))
+        income_before_equity_investments = xbrl.findAll(name=re.compile("(us-gaap:incomelossfromcontinuingoperationsbeforeincometaxesminorityinterest)",re.IGNORECASE|re.MULTILINE), attrs={"contextref" : re.compile("("+doc_date+")")})
         gaap_obj.income_before_equity_investments = self.data_processing(income_before_equity_investments, xbrl)
 
-        income_from_equity_investments = xbrl.findAll(name=re.compile("(us-gaap:incomelossfromequitymethodinvestments)",re.IGNORECASE|re.MULTILINE))
+        income_from_equity_investments = xbrl.findAll(name=re.compile("(us-gaap:incomelossfromequitymethodinvestments)",re.IGNORECASE|re.MULTILINE),
+        attrs={"contextref" : re.compile("("+doc_date+")")})
         gaap_obj.income_from_equity_investments = self.data_processing(income_from_equity_investments, xbrl)
 
-        income_tax_expense_benefit = xbrl.findAll(name=re.compile("(us-gaap:incometaxexpensebenefit)",re.IGNORECASE|re.MULTILINE))
+        income_tax_expense_benefit = xbrl.findAll(name=re.compile("(us-gaap:incometaxexpensebenefit)",re.IGNORECASE|re.MULTILINE),
+        attrs={"contextref" : re.compile("("+doc_date+")")})
         gaap_obj.income_tax_expense_benefit = self.data_processing(income_tax_expense_benefit, xbrl)
 
-        income_continuing_operations_tax = xbrl.findAll(name=re.compile("(us-gaap:IncomeLossBeforeExtraordinaryItemsAndCumulativeEffectOfChangeInAccountingPrinciple)",re.IGNORECASE|re.MULTILINE))
+        income_continuing_operations_tax = xbrl.findAll(name=re.compile("(us-gaap:IncomeLossBeforeExtraordinaryItemsAndCumulativeEffectOfChangeInAccountingPrinciple)",re.IGNORECASE|re.MULTILINE), attrs={"contextref" : re.compile("("+doc_date+")")})
         gaap_obj.income_continuing_operations_tax = self.data_processing(income_continuing_operations_tax, xbrl)
 
-        income_discontinued_operations = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(discontinuedoperation)",re.IGNORECASE|re.MULTILINE))
+        income_discontinued_operations = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(discontinuedoperation)",re.IGNORECASE|re.MULTILINE),
+        attrs={"contextref" : re.compile("("+doc_date+")")})
         gaap_obj.income_discontinued_operations = self.data_processing(income_discontinued_operations, xbrl)
 
-        extraordary_items_gain_loss = xbrl.findAll(name=re.compile("(us-gaap:extraordinaryitemnetoftax)",re.IGNORECASE|re.MULTILINE))
+        extraordary_items_gain_loss = xbrl.findAll(name=re.compile("(us-gaap:extraordinaryitemnetoftax)",re.IGNORECASE|re.MULTILINE),
+        attrs={"contextref" : re.compile("("+doc_date+")")})
         gaap_obj.extraordary_items_gain_loss = self.data_processing(extraordary_items_gain_loss, xbrl)
 
-        income_loss = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(incomeloss)",re.IGNORECASE|re.MULTILINE))
+        income_loss = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(incomeloss)",re.IGNORECASE|re.MULTILINE),
+        attrs={"contextref" : re.compile("("+doc_date+")")})
         gaap_obj.income_loss = self.data_processing(income_loss, xbrl)
-        income_loss += xbrl.findAll(name=re.compile("(us-gaap:profitloss)",re.IGNORECASE|re.MULTILINE))
+        income_loss += xbrl.findAll(name=re.compile("(us-gaap:profitloss)",re.IGNORECASE|re.MULTILINE),
+        attrs={"contextref" : re.compile("("+doc_date+")")})
         gaap_obj.income_loss = self.data_processing(income_loss, xbrl)
         
-        net_income_shareholders = xbrl.findAll(name=re.compile("(us-gaap:netincomeavailabletocommonstockholdersbasic)",re.IGNORECASE|re.MULTILINE))
+        net_income_shareholders = xbrl.findAll(name=re.compile("(us-gaap:netincomeavailabletocommonstockholdersbasic)",re.IGNORECASE|re.MULTILINE),
+        attrs={"contextref" : re.compile("("+doc_date+")")})
         gaap_obj.net_income_shareholders = self.data_processing(net_income_shareholders, xbrl)
 
-        preferred_stock_dividends = xbrl.findAll(name=re.compile("(us-gaap:preferredstockdividendsandotheradjustments)",re.IGNORECASE|re.MULTILINE))
+        preferred_stock_dividends = xbrl.findAll(name=re.compile("(us-gaap:preferredstockdividendsandotheradjustments)",re.IGNORECASE|re.MULTILINE),
+        attrs={"contextref" : re.compile("("+doc_date+")")})
         gaap_obj.preferred_stock_dividends = self.data_processing(preferred_stock_dividends, xbrl)
 
-        net_income_loss_noncontrolling = xbrl.findAll(name=re.compile("(us-gaap:netincomelossattributabletononcontrollinginterest)",re.IGNORECASE|re.MULTILINE))
+        net_income_loss_noncontrolling = xbrl.findAll(name=re.compile("(us-gaap:netincomelossattributabletononcontrollinginterest)",re.IGNORECASE|re.MULTILINE),
+        attrs={"contextref" : re.compile("("+doc_date+")")})
         gaap_obj.net_income_loss_noncontrolling = self.data_processing(net_income_loss_noncontrolling, xbrl)
         
-        net_income_parent = xbrl.findAll(name=re.compile("(us-gaap:netincomeloss)",re.IGNORECASE|re.MULTILINE))
+        net_income_parent = xbrl.findAll(name=re.compile("(us-gaap:netincomeloss)",re.IGNORECASE|re.MULTILINE),
+        attrs={"contextref" : re.compile("("+doc_date+")")})
         gaap_obj.net_income_parent = self.data_processing(net_income_parent, xbrl)
 
-        other_comprehensive_income = xbrl.findAll(name=re.compile("(us-gaap:othercomprehensiveincomelossnetoftax)",re.IGNORECASE|re.MULTILINE))
+        other_comprehensive_income = xbrl.findAll(name=re.compile("(us-gaap:othercomprehensiveincomelossnetoftax)",re.IGNORECASE|re.MULTILINE),
+        attrs={"contextref" : re.compile("("+doc_date+")")})
         gaap_obj.other_comprehensive_income = self.data_processing(other_comprehensive_income, xbrl)
 
-        comprehensive_income = xbrl.findAll(name=re.compile("(us-gaap:comprehensiveincome)",re.IGNORECASE|re.MULTILINE))
+        comprehensive_income = xbrl.findAll(name=re.compile("(us-gaap:comprehensiveincome)",re.IGNORECASE|re.MULTILINE),
+        attrs={"contextref" : re.compile("("+doc_date+")")})
         gaap_obj.comprehensive_income = self.data_processing(comprehensive_income, xbrl)
 
-        comprehensive_income_parent = xbrl.findAll(name=re.compile("(us-gaap:comprehensiveincomenetoftax)",re.IGNORECASE|re.MULTILINE))
+        comprehensive_income_parent = xbrl.findAll(name=re.compile("(us-gaap:comprehensiveincomenetoftax)",re.IGNORECASE|re.MULTILINE),
+        attrs={"contextref" : re.compile("("+doc_date+")")})
         gaap_obj.comprehensive_income_parent = self.data_processing(comprehensive_income_parent, xbrl)
 
-        comprehensive_income_interest = xbrl.findAll(name=re.compile("(us-gaap:comprehensiveincomenetoftaxattributabletononcontrollinginterest)",re.IGNORECASE|re.MULTILINE))
+        comprehensive_income_interest = xbrl.findAll(name=re.compile("(us-gaap:comprehensiveincomenetoftaxattributabletononcontrollinginterest)",re.IGNORECASE|re.MULTILINE), attrs={"contextref" : re.compile("("+doc_date+")")})
         gaap_obj.comprehensive_income_interest = self.data_processing(comprehensive_income_interest, xbrl)
 
         ### Cash flow statement ###
-        net_cash_flows_operating = xbrl.findAll(name=re.compile("(us-gaap:netcashprovidedbyusedinoperatingactivities)",re.IGNORECASE|re.MULTILINE))
+        net_cash_flows_operating = xbrl.findAll(name=re.compile("(us-gaap:netcashprovidedbyusedinoperatingactivities)",re.IGNORECASE|re.MULTILINE),
+        attrs={"contextref" : re.compile("("+doc_date+")")})
         gaap_obj.net_cash_flows_operating = self.data_processing(net_cash_flows_operating, xbrl)
 
-        net_cash_flows_investing = xbrl.findAll(name=re.compile("(us-gaap:netcashprovidedbyusedininvestingactivities)",re.IGNORECASE|re.MULTILINE))
+        net_cash_flows_investing = xbrl.findAll(name=re.compile("(us-gaap:netcashprovidedbyusedininvestingactivities)",re.IGNORECASE|re.MULTILINE),
+        attrs={"contextref" : re.compile("("+doc_date+")")})
         gaap_obj.net_cash_flows_investing = self.data_processing(net_cash_flows_investing, xbrl)
 
-        net_cash_flows_financing = xbrl.findAll(name=re.compile("(us-gaap:netcashprovidedbyusedinfinancingactivities)",re.IGNORECASE|re.MULTILINE))
+        net_cash_flows_financing = xbrl.findAll(name=re.compile("(us-gaap:netcashprovidedbyusedinfinancingactivities)",re.IGNORECASE|re.MULTILINE),
+        attrs={"contextref" : re.compile("("+doc_date+")")})
         gaap_obj.net_cash_flows_financing = self.data_processing(net_cash_flows_financing, xbrl)
 
-        net_cash_flows_operating_continuing = xbrl.findAll(name=re.compile("(us-gaap:netcashprovidedbyusedinoperatingactivitiescontinuingoperations)",re.IGNORECASE|re.MULTILINE))
+        net_cash_flows_operating_continuing = xbrl.findAll(name=re.compile("(us-gaap:netcashprovidedbyusedinoperatingactivitiescontinuingoperations)",re.IGNORECASE|re.MULTILINE), attrs={"contextref" : re.compile("("+doc_date+")")})
         gaap_obj.net_cash_operating_continuing = self.data_processing(net_cash_flows_operating_continuing, xbrl)
         
-        net_cash_flows_investing_continuing = xbrl.findAll(name=re.compile("(us-gaap:netcashprovidedbyusedininvestingactivitiescontinuingoperations)",re.IGNORECASE|re.MULTILINE))
+        net_cash_flows_investing_continuing = xbrl.findAll(name=re.compile("(us-gaap:netcashprovidedbyusedininvestingactivitiescontinuingoperations)",re.IGNORECASE|re.MULTILINE), attrs={"contextref" : re.compile("("+doc_date+")")})
         gaap_obj.net_cash_flows_investing_continuing = self.data_processing(net_cash_flows_investing_continuing, xbrl)
                         
-        net_cash_flows_financing_continuing = xbrl.findAll(name=re.compile("(us-gaap:netcashprovidedbyusedinfinancingactivitiescontinuingoperations)",re.IGNORECASE|re.MULTILINE))
+        net_cash_flows_financing_continuing = xbrl.findAll(name=re.compile("(us-gaap:netcashprovidedbyusedinfinancingactivitiescontinuingoperations)",re.IGNORECASE|re.MULTILINE), attrs={"contextref" : re.compile("("+doc_date+")")})
         gaap_obj.net_cash_flows_financing_continuing = self.data_processing(net_cash_flows_financing_continuing, xbrl)
 
-        net_cash_flows_operating_discontinued = xbrl.findAll(name=re.compile("(us-gaap:cashprovidedbyusedinoperatingactivitiesdiscontinuedoperations)",re.IGNORECASE|re.MULTILINE))
+        net_cash_flows_operating_discontinued = xbrl.findAll(name=re.compile("(us-gaap:cashprovidedbyusedinoperatingactivitiesdiscontinuedoperations)",re.IGNORECASE|re.MULTILINE), attrs={"contextref" : re.compile("("+doc_date+")")})
         gaap_obj.net_cash_flows_operating_discontinued = self.data_processing(net_cash_flows_operating_discontinued, xbrl)
 
-        net_cash_flows_investing_discontinued = xbrl.findAll(name=re.compile("(us-gaap:CashProvidedByUsedInInvestingActivitiesDiscontinuedOperations)",re.IGNORECASE|re.MULTILINE))
+        net_cash_flows_investing_discontinued = xbrl.findAll(name=re.compile("(us-gaap:CashProvidedByUsedInInvestingActivitiesDiscontinuedOperations)",re.IGNORECASE|re.MULTILINE), attrs={"contextref" : re.compile("("+doc_date+")")})
         gaap_obj.net_cash_flows_investing_discontinued = self.data_processing(net_cash_flows_investing_discontinued, xbrl)
 
-        net_cash_flows_discontinued = xbrl.findAll(name=re.compile("(us-gaap:netcashprovidedbyusedindiscontinuedoperations)",re.IGNORECASE|re.MULTILINE))
+        net_cash_flows_discontinued = xbrl.findAll(name=re.compile("(us-gaap:netcashprovidedbyusedindiscontinuedoperations)",re.IGNORECASE|re.MULTILINE),
+        attrs={"contextref" : re.compile("("+doc_date+")")})
         gaap_obj.net_cash_flows_discontinued = self.data_processing(net_cash_flows_discontinued, xbrl)
 
         return gaap_obj
@@ -228,19 +271,7 @@ class XBRLParser(object):
         '''
         unique_obj = Unique()
 
-        unique_data = xbrl.findAll(re.compile('^(?!us-gaap|xbrll):\s*'))
-        print unique_data[0]
-
-        return unique_obj
-
-    @classmethod
-    def parseUnique(self, xbrl):
-        '''
-        Parse company unique entities in xbrl-land and return an Unique object.
-        '''
-        unique_obj = Unique()
-
-        unique_data = xbrl.findAll(re.compile('^(?!us-gaap|xbrll):\s*'))
+        unique_data = xbrl.findAll(re.compile('^(?!us-gaap|xbrl*):\s*'))
         print unique_data[0]
 
         return unique_obj
