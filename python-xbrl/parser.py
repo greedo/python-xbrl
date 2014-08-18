@@ -258,7 +258,7 @@ class XBRLParser(object):
             return False
 
     @staticmethod
-    def total_elements(elements, precision=-3):
+    def total_elements(elements, precision=0):
 
         elements_total = 0
         for element in elements:
@@ -274,7 +274,7 @@ class XBRLParser(object):
                 if xbrl.precision is not 0 and xbrl.precison is not attr_precision:
                     xbrl.precision = attr_precision
             if elements:
-                return self.total_elements(elements)
+                return self.total_elements(elements, xbrl.precision)
             else:
                 return 0
         else:
