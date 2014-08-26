@@ -18,14 +18,15 @@ Simple Parsing Workflow
 -----------------------
 
 First parse the incoming XRBL file into a new `XBRL` basic object
-
+    
+    xbrl_parser = XBRLParser()
     xbrl = XBRLParser.parse(file("sam-20131228.xml"))
     
-Then you can parse the document using different parser
+Then you can parse the document using different parsers
 
-    gaap_obj = XBRLParser.parseGAAP(xbrl)
+    gaap_obj = XBRLParser.parseGAAP(xbrl, doc_date="20131228", doc_type="10-K")
     
-Now we have a `GAAP` model object that has the GAAP parsed elements from the document.
+Now we have a `GAAP` model object that has the GAAP parsed elements from the document. You can also parse different types of documents, currently only 10-K and 10-Q is supported
 
 You can serialize the GAAP model object into a serialized object acceptable for rending into a standard format such as JSON or HTTP API.
 
