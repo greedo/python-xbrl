@@ -10,12 +10,8 @@ except ImportError:
 
 from parser import soup_maker, XBRLParser, XBRLParserException
 
-
-class TestParse(TestCase):
-
-    def testEmptyFile(self):
-        fh = StringIO()
-        assert XBRLParser.parse(fh) is None
-
-        # def test_parse(self):
-        # make sure the shuffled sequence does not lose any elements
+def testEmptyFile():
+    xbrl_parser = XBRLParser()
+    file_to_parse = "tests/nothing.xml"
+    with pytest.raises(XBRLParserException):
+        xbrl_parser.parse(file(file_to_parse))
