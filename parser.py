@@ -87,6 +87,7 @@ class XBRLParser(object):
                 if context.find("instant"):
                     correct_std.append(std)
 
+
         assets = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(assets)",re.IGNORECASE|re.MULTILINE),
         attrs={"contextref" : re.compile("("+doc_date+")")})
         gaap_obj.assets = self.data_processing(assets, xbrl, correct_std)
