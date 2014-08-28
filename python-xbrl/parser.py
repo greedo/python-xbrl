@@ -2,6 +2,7 @@ import collections
 import re
 from marshmallow import Serializer, fields, pprint
 import pprint
+import datetime
 
 if 'OrderedDict' in dir(collections):
     odict = collections
@@ -62,16 +63,30 @@ class XBRLParser(object):
         return xbrl
 
     @classmethod
-    def parseGAAP(self, xbrl, doc_date, doc_type):
+    def parseGAAP(self,
+                  xbrl,
+                  doc_date="",
+                  doc_type="10-K",
+                  context="current",
+                  std_range=[]):
         '''
         Parse GAAP in xbrl-land and return a GAAP object.
         '''
         gaap_obj = GAAP()
 
-        if doc_type == "10-Q":
+        # the default is today
+        if doc_date == "":
+            doc_date = str(datetime.date.today())
+
+        if context == "current":
             std_ranges = range(90, 99)
-        if doc_type == "10-K":
+        elif context == "year":
             std_ranges = range(360, 365)
+        elif context == "instant":
+            std_ranges = []
+
+        if std_range:
+            std_ranges = std_range
 
         # collect all contexts up that are relevant to us
         # TODO - Maybe move this to Preprocessing Ingestion
@@ -82,11 +97,10 @@ class XBRLParser(object):
             if context.find("segment") is None:
                 # we want correct STD and instant 
                 std = filter(lambda x: x[0]=='id', context.attrs)[0][1]
-                if int(re.findall("STD_[0-9]*_", std)[0].split("_")[1]) in std_ranges:
-                    correct_std.append(std)
                 if context.find("instant"):
                     correct_std.append(std)
-
+                if int(re.findall("STD_[0-9]*_", std)[0].split("_")[1]) in std_ranges:
+                    correct_std.append(std)
 
         assets = xbrl.findAll(name=re.compile("(us-gaap:)[^s]*(assets)",re.IGNORECASE|re.MULTILINE),
         attrs={"contextref" : re.compile("("+doc_date+")")})
@@ -388,7 +402,6 @@ class XBRLPreprocessedFile(XBRLFile):
 class XBRL(object):
     def __str__(self):
         return ""
-
 
 class GAAP(object):
     def __init__(self,
