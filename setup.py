@@ -43,7 +43,7 @@ setup_params = dict(
         "License :: OSI Approved :: Apache License",
     ],
     install_requires=[
-                    'BeautifulSoup',
+	'BeautifulSoup',
 	're',
 	'marshmallow',
 	'datetime',
