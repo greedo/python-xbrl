@@ -3,11 +3,11 @@ import sys
 
 from setuptools import setup, find_packages
 
-# Read the version from __init__ to avoid importing ofxparse while installing.
+# Read the version from __init__ to avoid importing python-xbrl while installing.
 # This lets the install work when the user does not have BeautifulSoup
 # installed.
 VERSION = re.search(r"__version__ = '(.*?)'",
-                    open("xbrlparse/__init__.py").read()).group(1)
+                    open("python-xbrl/__init__.py").read()).group(1)
 
 # Use BeautifulSoup 3 on Python 2.5 and earlier and BeautifulSoup 4 otherwise
 if sys.version_info < (2, 6):
@@ -28,9 +28,9 @@ if sys.version_info < (2, 7):
 setup_params = dict(
     name='python-xbrl',
     version=VERSION,
-    description=("Tools for working XBRL"
-                 " file format"),
-    long_description=open("./README", "r").read(),
+    author='Joe Cabrera',
+    author_email='jcabrera@eminorlabs.com',
+    keywords='xbrl, Financial, Accounting, file formats',
     # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
     classifiers=[
         "Development Status :: 1",
@@ -39,20 +39,23 @@ setup_params = dict(
         "Operating System :: OS Independent",
         "Programming Language :: Python :: 2.7",
         "Topic :: Software Development :: Libraries :: Python Modules",
-        "Topic :: Utilities",
+        'Topic :: Office/Business :: Financial',
         "License :: OSI Approved :: Apache License",
     ],
-    keywords='xbrl, Financial, Accounting, file formats',
-    author='Joe Cabrera',
-    author_email='calcmaster16@gmail.com',
-    url='http://eminorlabs.com/python-xbrl',
-    license='MIT License',
+    install_requires=[
+                    'BeautifulSoup',
+	're',
+	'marshmallow',
+	'datetime',
+	'pprint'
+	],
+    url='https://github.com/greedo/python-xbrl/',
+    license='Apache License',
+    description='library for parsing xbrl documents providing output as both a basic model object and serialized objects',
+    long_description=open("./README", "r").read(),
     packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
     include_package_data=True,
     zip_safe=True,
-    install_requires=REQUIRES,
-    entry_points="""
-    """,
     test_suite='tests',
     )
 
