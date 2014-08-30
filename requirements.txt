@@ -2,3 +2,4 @@ pytest
 marshmallow
 beautifulsoup4
 ordereddict
+lxml
