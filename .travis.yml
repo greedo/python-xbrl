@@ -3,6 +3,8 @@ python:
     - "2.6"
     - "2.7"
 
+before_install: apt-get install libxslt1-dev libxml2
+
 # command to install dependencies
 install:
     - pip install -r requirements.txt
