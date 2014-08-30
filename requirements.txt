@@ -1,0 +1,3 @@
+pytest
+marshmallow
+beautifulsoup4

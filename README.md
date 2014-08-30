@@ -1,6 +1,13 @@
 **python-xbrl** is a library for parsing [xbrl](http://www.xbrl.org/Specification/XBRL-2.1/REC-2003-12-31/XBRL-2.1-REC-2003-12-31+corrected-errata-2013-02-20.html) documents providing output as both a basic model object and serialized objects
 thur [marshmallow](http://marshmallow.readthedocs.org/en/latest/) for rendering into standards formats like JSON or HTTP API
 
+Installation
+------------
+
+The easiest way to install python-xbrl is with pip
+
+    sudo pip install python-xbrl
+
 Usage
 -----
 
