@@ -2,6 +2,7 @@ import re
 from marshmallow import Serializer, fields, pprint
 import pprint
 import datetime
+import ordereddict
 
 try:
     from StringIO import StringIO
@@ -25,7 +26,7 @@ class XBRLFile(object):
         """
         fh should be a seekable file-like byte stream object
         """
-        self.headers = odict.OrderedDict()
+        self.headers = ordereddict.OrderedDict()
         self.fh = fh
 
 class XBRLParserException(Exception):
