@@ -1,10 +1,5 @@
-.. image:: https://badge.fury.io/py/python-xbrl.png
-    :target: https://badge.fury.io/py/python-xbrl
-    :alt: Latest version
-
-.. image:: https://travis-ci.org/greedo/python-xbrl.png?branch=master
-    :target: https://travis-ci.org/greedo/python-xbrl
-    :alt: Travis-CI
+[![PyPI version](https://badge.fury.io/py/python-xbrl.png)](http://badge.fury.io/py/python-xbrl)
+[![Travis-CI](https://travis-ci.org/greedo/python-xbrl.png?branch=master)](https://travis-ci.org/greedo/python-xbrl)
 
 **python-xbrl** is a library for parsing [xbrl](http://www.xbrl.org/Specification/XBRL-2.1/REC-2003-12-31/XBRL-2.1-REC-2003-12-31+corrected-errata-2013-02-20.html) documents providing output as both a basic model object and serialized objects
 thur [marshmallow](http://marshmallow.readthedocs.org/en/latest/) for rendering into standards formats like JSON or HTTP API
