@@ -1,1 +1,1 @@
-parser.py
+../python-xbrl/python-xbrl.py
