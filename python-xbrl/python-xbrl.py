@@ -1,13 +1,7 @@
-import collections
 import re
 from marshmallow import Serializer, fields, pprint
 import pprint
 import datetime
-
-if 'OrderedDict' in dir(collections):
-    odict = collections
-else:
-    import ordereddict as odict
 
 try:
     from StringIO import StringIO
