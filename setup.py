@@ -1,8 +1,13 @@
 from distutils.core import setup
+import os
+
+long_description = 'library for parsing xbrl documents'
+if os.path.exists('README.rst'):
+    long_description = open('README.rst').read()
 
 setup(
     name='python-xbrl',
-    version='1.0.1',
+    version='1.0.2',
     description='library for parsing xbrl documents',
     author='Joe Cabrera',
     author_email='jcabrera@eminorlabs.com',
@@ -19,4 +24,5 @@ setup(
         'Topic :: Office/Business :: Financial',
     ],
     scripts=['python-xbrl/python-xbrl.py'],
+    long_description=long_description
 )
