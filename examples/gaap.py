@@ -1,4 +1,4 @@
-from parser import XBRLParser, GAAP, GAAPSerializer
+from xbrl import XBRLParser, GAAP, GAAPSerializer
 
 xbrl_parser = XBRLParser(precision=0)
 
