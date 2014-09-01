@@ -22,7 +22,6 @@ def test_parse_GAAP10Q():
     file_to_parse = "tests/sam-20130629.xml"
     xbrl = xbrl_parser.parse(file(file_to_parse))
     gaap_obj = xbrl_parser.parseGAAP(xbrl, str(file_to_parse.split("-")[1].split(".")[0][:4] + file_to_parse.split("-")[1].split(".")[0][4:6] + file_to_parse.split("-")[1].split(".")[0][6:8]), "10-K", "current")
-    #str(file_to_parse.split("-")[1].split(".")[0][:4] + file_to_parse.split("-")[1].split(".")[0][4:6] + file_to_parse.split("-")[1].split(".")[0][6:8]), doc_type="10-Q")
 
     serialized = GAAPSerializer(gaap_obj)
 

@@ -29,7 +29,7 @@ To start using the library, first import the ``XBRLParser``
 
 ::
 
-    from parser import XBRLParser
+    from xbrl import XBRLParser
 
 Simple Parsing Workflow
 -----------------------
