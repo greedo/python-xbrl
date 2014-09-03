@@ -86,15 +86,19 @@ class XBRLParser(object):
         # TODO - Maybe move this to Preprocessing Ingestion
         correct_std = []
         contexts = xbrl.find_all(name=re.compile("context", re.IGNORECASE|re.MULTILINE))
-        for context in contexts:
-            # we don't want segments
-            if context.find("segment") is None:
-                # we want correct STD and instant 
-                std = context.attrs['id']
-                if context.find("instant"):
-                    correct_std.append(std)
-                if int(re.findall("STD_[0-9]*_", std)[0].split("_")[1]) in std_ranges:
-                    correct_std.append(std)
+
+        try:
+            for context in contexts:
+                # we don't want segments
+                if context.find("segment") is None:
+                    # we want correct STD and instant
+                    std = context.attrs['id']
+                    if context.find("instant"):
+                        correct_std.append(std)
+                    if int(re.findall("STD_[0-9]*_", std)[0].split("_")[1]) in std_ranges:
+                        correct_std.append(std)
+        except IndexError:
+            raise XBRLParserException('problem getting contexts')
 
         assets = xbrl.find_all(name=re.compile("(us-gaap:)[^s]*(assets)",re.IGNORECASE|re.MULTILINE),
         attrs={"contextref" : re.compile("("+doc_date+")")})
