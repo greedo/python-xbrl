@@ -8,7 +8,9 @@ try:
 except ImportError:
     from io import StringIO
 
-from xbrl import soup_maker, XBRLParser, XBRLParserException, GAAP, GAAPSerializer
+from xbrl import soup_maker, XBRLParser, XBRLParserException, \
+    GAAP, GAAPSerializer
+
 
 def test_parse_empty_file():
     xbrl_parser = XBRLParser()
@@ -16,12 +18,20 @@ def test_parse_empty_file():
     with pytest.raises(XBRLParserException):
         xbrl_parser.parse(file(file_to_parse))
 
+
 def test_parse_GAAP10Q():
 
     xbrl_parser = XBRLParser(0)
     file_to_parse = "tests/sam-20130629.xml"
     xbrl = xbrl_parser.parse(file(file_to_parse))
-    gaap_obj = xbrl_parser.parseGAAP(xbrl, str(file_to_parse.split("-")[1].split(".")[0][:4] + file_to_parse.split("-")[1].split(".")[0][4:6] + file_to_parse.split("-")[1].split(".")[0][6:8]), "10-K", "current")
+    gaap_obj = xbrl_parser.parseGAAP(xbrl,
+                                     str(file_to_parse
+                                         .split("-")[1].split(".")[0][:4]
+                                         + file_to_parse.split("-")[1]
+                                         .split(".")[0][4:6]
+                                         + file_to_parse.split("-")[1]
+                                         .split(".")[0][6:8]),
+                                     "10-K", "current")
 
     serialized = GAAPSerializer(gaap_obj)
 
@@ -71,12 +81,20 @@ def test_parse_GAAP10Q():
     assert serialized.data['net_income_loss_noncontrolling'] == 0.0
     assert serialized.data['net_cash_flows_operating'] == 0.0
 
+
 def test_parse_GAAP10K():
 
     xbrl_parser = XBRLParser(0)
     file_to_parse = "tests/sam-20131228.xml"
     xbrl = xbrl_parser.parse(file(file_to_parse))
-    gaap_obj = xbrl_parser.parseGAAP(xbrl, str(file_to_parse.split("-")[1].split(".")[0][:4] + file_to_parse.split("-")[1].split(".")[0][4:6] + file_to_parse.split("-")[1].split(".")[0][6:8]), "10-K", "current")
+    gaap_obj = xbrl_parser.parseGAAP(xbrl,
+                                     str(file_to_parse
+                                         .split("-")[1].split(".")[0][:4]
+                                         + file_to_parse.split("-")[1]
+                                         .split(".")[0][4:6]
+                                         + file_to_parse.split("-")[1]
+                                         .split(".")[0][6:8]),
+                                     "10-K", "current")
 
     serialized = GAAPSerializer(gaap_obj)
 
