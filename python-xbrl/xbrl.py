@@ -55,7 +55,7 @@ class XBRLParser(object):
         xbrl = soup_maker(xbrl_file.fh)
 
         if xbrl.find('xbrl') is None and xbrl.find(
-                name=re.compile("(xbrl*:)")) is None:
+                name=re.compile("(xbrl*:*)")) is None:
             raise XBRLParserException('The xbrl file is empty!')
 
         return xbrl
