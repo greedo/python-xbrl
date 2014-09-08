@@ -1,4 +1,5 @@
 pytest
+pep8
 marshmallow
 beautifulsoup4
 ordereddict
