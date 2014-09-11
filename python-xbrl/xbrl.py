@@ -54,11 +54,16 @@ class XBRLParser(object):
         xbrl_file = XBRLPreprocessedFile(file_handle)
 
         xbrl = soup_maker(xbrl_file.fh)
+        xbrl_base = xbrl.find(name=re.compile("xbrl*:*"))
 
-        # xbrli:xbrl
-        if xbrl.find('xbrl') is None and xbrl.find(
-                name=re.compile("xbrl*:*")) is None:
+        if xbrl.find('xbrl') is None and xbrl_base is None:
             raise XBRLParserException('The xbrl file is empty!')
+
+        # is the document root needed for parsing?
+        self.xbrl_base = xbrl_base.name.split(":")[0] + ":"
+        if xbrl.find(name=re.compile(self.xbrl_base + "context",
+                     re.IGNORECASE | re.MULTILINE)) is None:
+            self.xbrl_base = ""
 
         return xbrl
 
@@ -113,38 +118,54 @@ class XBRLParser(object):
             expected_end_date = \
                 datetime.datetime.strptime(doc_date, "%Y%m%d")
 
+        doc_root = ""
+
+        # we might need to attach the document root
+        if len(self.xbrl_base) > 1:
+            doc_root = self.xbrl_base
+
         # collect all contexts up that are relevant to us
         # TODO - Maybe move this to Preprocessing Ingestion
         context_ids = []
-        context_tags = xbrl.find_all(name=re.compile("context",
+        context_tags = xbrl.find_all(name=re.compile(doc_root + "context",
                                      re.IGNORECASE | re.MULTILINE))
 
         try:
             for context_tag in context_tags:
                 # we don't want any segments
-                if context_tag.find("entity").find("segment") is None:
+                if context_tag.find(doc_root + "entity") is None:
+                    continue
+                if context_tag.find(doc_root + "entity")
+                .find(doc_root + "segment") is None:
                     context_id = context_tag.attrs['id']
-                    if context_tag.find("period").find("startdate"):
+                    if context_tag.find(doc_root + "period")
+                    .find(doc_root + "startdate"):
                         found_start_date = \
                             datetime.datetime.strptime(re.compile('[^\d]+')
                                                        .sub('', context_tag
-                                                       .find("period")
-                                                       .find("startdate")
+                                                       .find(doc_root
+                                                             + "period")
+                                                       .find(doc_root
+                                                             + "startdate")
                                                        .text), "%Y%m%d")
-                    if context_tag.find("period").find("enddate"):
+                    if context_tag.find(doc_root + "period")
+                    .find(doc_root + "enddate"):
                         found_end_date = \
                             datetime.datetime.strptime(re.compile('[^\d]+')
                                                        .sub('', context_tag
-                                                       .find("period")
-                                                       .find("enddate")
+                                                       .find(doc_root
+                                                             + "period")
+                                                       .find(doc_root
+                                                             + "enddate")
                                                        .text), "%Y%m%d")
                     instant = None
 
-                    if context_tag.find("instant"):
+                    if context_tag.find(doc_root + "instant"):
                         instant = \
                             datetime.datetime.strptime(re.compile('[^\d]+')
                                                        .sub('', context_tag
-                                                       .find("instant")
+                                                       .find(doc_root
+                                                             + "instant")
                                                        .text), "%Y%m%d")
 
                     # we want instant too if it is available
