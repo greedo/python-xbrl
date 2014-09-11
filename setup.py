@@ -7,7 +7,7 @@ if os.path.exists('README.rst'):
 
 setup(
     name='python-xbrl',
-    version='1.0.2',
+    version='1.0.3',
     description='library for parsing xbrl documents',
     author='Joe Cabrera',
     author_email='jcabrera@eminorlabs.com',
@@ -23,6 +23,6 @@ setup(
         'Topic :: Software Development :: Libraries :: Python Modules',
         'Topic :: Office/Business :: Financial',
     ],
-    scripts=['python-xbrl/python-xbrl.py'],
+    scripts=['python-xbrl/xbrl.py'],
     long_description=long_description
 )
