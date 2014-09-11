@@ -135,21 +135,21 @@ class XBRLParser(object):
                 # we don't want any segments
                 if context_tag.find(doc_root + "entity") is None:
                     continue
-                if context_tag.find(doc_root + "entity")
-                .find(doc_root + "segment") is None:
+                if context_tag.find(doc_root + "entity").find(
+                doc_root + "segment") is None:
                     context_id = context_tag.attrs['id']
-                    if context_tag.find(doc_root + "period")
-                    .find(doc_root + "startdate"):
-                        found_start_date = \
-                            datetime.datetime.strptime(re.compile('[^\d]+')
-                                                       .sub('', context_tag
-                                                       .find(doc_root
-                                                             + "period")
-                                                       .find(doc_root
-                                                             + "startdate")
-                                                       .text), "%Y%m%d")
-                    if context_tag.find(doc_root + "period")
-                    .find(doc_root + "enddate"):
+                    if context_tag.find(doc_root + "period").find(
+                    doc_root + "startdate"):
+                            found_start_date = \
+                                datetime.datetime.strptime(re.compile('[^\d]+')
+                                                           .sub('', context_tag
+                                                           .find(doc_root
+                                                                 + "period")
+                                                           .find(doc_root
+                                                                 + "startdate")
+                                                           .text), "%Y%m%d")
+                    if context_tag.find(doc_root + "period").find(doc_root
+                    + "enddate"):
                         found_end_date = \
                             datetime.datetime.strptime(re.compile('[^\d]+')
                                                        .sub('', context_tag
