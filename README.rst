@@ -53,7 +53,7 @@ from the document.
 This model object supports the several different features including:
 
 -  ``doc_type`` currently only 10-K and 10-Q is supported
--  ``context`` current, year, and instant contexts are supported
+-  ``context`` current, year, and instant contexts are supported. If available you can also get previous quarter information by number of days from doc date. Example: 90, 180, etc.
 
 You can serialize the GAAP model object into a serialized object
 acceptable for rending into a standard format such as JSON or HTTP API.
