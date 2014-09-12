@@ -138,16 +138,31 @@ class XBRLParser(object):
                 if context_tag.find(doc_root + "entity").find(
                 doc_root + "segment") is None:
                     context_id = context_tag.attrs['id']
+
+                    found_start_date = None
+                    found_end_date = None
+
+                    if context_tag.find(doc_root + "instant"):
+                        instant = \
+                            datetime.datetime.strptime(re.compile('[^\d]+')
+                                                       .sub('', context_tag
+                                                       .find(doc_root
+                                                             + "instant")
+                                                        .text), "%Y%m%d")
+                        if instant == expected_end_date:
+                            context_ids.append(context_id)
+                            continue
+
                     if context_tag.find(doc_root + "period").find(
                     doc_root + "startdate"):
-                            found_start_date = \
-                                datetime.datetime.strptime(re.compile('[^\d]+')
-                                                           .sub('', context_tag
-                                                           .find(doc_root
-                                                                 + "period")
-                                                           .find(doc_root
-                                                                 + "startdate")
-                                                           .text), "%Y%m%d")
+                        found_start_date = \
+                            datetime.datetime.strptime(re.compile('[^\d]+')
+                                                       .sub('', context_tag
+                                                       .find(doc_root
+                                                             + "period")
+                                                       .find(doc_root
+                                                            + "startdate")
+                                                        .text), "%Y%m%d")
                     if context_tag.find(doc_root + "period").find(doc_root
                     + "enddate"):
                         found_end_date = \
@@ -158,23 +173,10 @@ class XBRLParser(object):
                                                        .find(doc_root
                                                              + "enddate")
                                                        .text), "%Y%m%d")
-                    instant = None
-
-                    if context_tag.find(doc_root + "instant"):
-                        instant = \
-                            datetime.datetime.strptime(re.compile('[^\d]+')
-                                                       .sub('', context_tag
-                                                       .find(doc_root
-                                                             + "instant")
-                                                       .text), "%Y%m%d")
-
-                    # we want instant too if it is available
-                    if instant == expected_end_date:
-                        context_ids.append(context_id)
-                        continue
-                    for ce in context_extended:
-                        if found_end_date - found_start_date == \
-                                datetime.timedelta(days=ce):
+                    if found_end_date and found_start_date:
+                        for ce in context_extended:
+                            if found_end_date - found_start_date == \
+                            datetime.timedelta(days=ce):
                                 if found_end_date == expected_end_date:
                                     context_ids.append(context_id)
         except IndexError:
@@ -529,7 +531,11 @@ class XBRLParser(object):
 
     @staticmethod
     def trim_decimals(s, precision=-3):
-        return int(str(s.encode('ascii', 'ignore'))[:precision])
+        try:
+            float(str(s.encode('ascii', 'ignore'))[:precision])
+        except ValueError:
+            return 0
+        return float(str(s.encode('ascii', 'ignore'))[:precision])
 
     @staticmethod
     def is_number(s):
@@ -569,8 +575,8 @@ class XBRLParser(object):
             decimals = elements[0].attrs['decimals']
             if decimals is not None:
                 attr_precision = decimals
-                if xbrl.precision is not 0 \
-                   and xbrl.precison is not attr_precision:
+                if xbrl.precision != 0 \
+                   and xbrl.precison != attr_precision:
                         xbrl.precision = attr_precision
             if elements:
                 return XBRLParser().trim_decimals(elements[0].text,

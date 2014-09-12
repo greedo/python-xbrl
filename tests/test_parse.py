@@ -268,3 +268,127 @@ def test_parse_GAAP10Q_Webfilings():
     assert serialized.data['current_assets'] == 0.0
     assert serialized.data['interest_and_debt_expense'] == 0.0
     assert serialized.data['net_income_loss_noncontrolling'] == 0.0
+
+
+def test_parse_GAAP10Q_Rivet():
+
+    xbrl_parser = XBRLParser(0)
+    file_to_parse = "tests/c289-20140503.xml"
+    xbrl = xbrl_parser.parse(file(file_to_parse))
+    gaap_obj = xbrl_parser.parseGAAP(xbrl,
+                                     str(file_to_parse
+                                         .split("-")[1].split(".")[0][:4]
+                                         + file_to_parse.split("-")[1]
+                                         .split(".")[0][4:6]
+                                         + file_to_parse.split("-")[1]
+                                         .split(".")[0][6:8]),
+                                     "10-Q", "current")
+
+    serialized = GAAPSerializer(gaap_obj)
+
+    assert serialized.data['liabilities'] == 12535.0
+    assert serialized.data['net_cash_flows_financing_continuing'] == 0.0
+    assert serialized.data['revenue'] == 0.0
+    assert serialized.data['income_tax_expense_benefit'] == 14.0
+    assert serialized.data['income_from_equity_investments'] == 0.0
+    assert serialized.data['preferred_stock_dividends'] == 0.0
+    assert serialized.data['redeemable_noncontrolling_interest'] == 0.0
+    assert serialized.data['extraordary_items_gain_loss'] == 0.0
+    assert serialized.data['temporary_equity'] == 0.0
+    assert serialized.data['costs_and_expenses'] == 0.0
+    assert serialized.data['non_current_assets'] == 708.0
+    assert serialized.data['net_cash_flows_discontinued'] == 0.0
+    assert serialized.data['income_loss'] == -983.0
+    assert serialized.data['liabilities_and_equity'] == 13261.0
+    assert serialized.data['other_operating_income'] == 0.0
+    assert serialized.data['operating_income_loss'] == 0.0
+    assert serialized.data['net_income_parent'] == 0.0
+    assert serialized.data['equity'] == 0.0
+    assert serialized.data['net_cash_flows_operating_discontinued'] == 0.0
+    assert serialized.data['cost_of_revenue'] == 0.0
+    assert serialized.data['operating_expenses'] == 3497.0
+    assert serialized.data['noncurrent_liabilities'] == 0.0
+    assert serialized.data['current_liabilities'] == 0.0
+    assert serialized.data['net_cash_flows_investing'] == 0.0
+    assert serialized.data['stockholders_equity'] == 726.0
+    assert serialized.data['net_income_loss'] == -983.0
+    assert serialized.data['net_cash_flows_investing_continuing'] == 0.0
+    assert serialized.data['nonoperating_income_loss'] == 0.0
+    assert serialized.data['net_cash_flows_financing'] == 0.0
+    assert serialized.data['net_income_shareholders'] == 0.0
+    assert serialized.data['comprehensive_income'] == -977.0
+    assert serialized.data['equity_attributable_interest'] == 0.0
+    assert serialized.data['commitments_and_contingencies'] == 0.0
+    assert serialized.data['comprehensive_income_parent'] == -977.0
+    assert serialized.data['income_before_equity_investments'] == -969.0
+    assert serialized.data['comprehensive_income_interest'] == 0.0
+    assert serialized.data['other_comprehensive_income'] == 0.0
+    assert serialized.data['equity_attributable_parent'] == 0.0
+    assert serialized.data['assets'] == 13261.0
+    assert serialized.data['gross_profit'] == 2687.0
+    assert serialized.data['net_cash_flows_operating_continuing'] == 0.0
+    assert serialized.data['current_assets'] == 0.0
+    assert serialized.data['interest_and_debt_expense'] == 0.0
+    assert serialized.data['net_income_loss_noncontrolling'] == 0.0
+
+
+def test_parse_GAAP10K_Rivet():
+
+    xbrl_parser = XBRLParser(0)
+    file_to_parse = "tests/rsh-20131231.xml"
+    xbrl = xbrl_parser.parse(file(file_to_parse))
+    gaap_obj = xbrl_parser.parseGAAP(xbrl,
+                                     str(file_to_parse
+                                         .split("-")[1].split(".")[0][:4]
+                                         + file_to_parse.split("-")[1]
+                                         .split(".")[0][4:6]
+                                         + file_to_parse.split("-")[1]
+                                         .split(".")[0][6:8]),
+                                     "10-K", "current")
+
+    serialized = GAAPSerializer(gaap_obj)
+
+    assert serialized.data['liabilities'] == 234.0
+    assert serialized.data['net_cash_flows_financing_continuing'] == 0.0
+    assert serialized.data['revenue'] == 0.0
+    assert serialized.data['income_tax_expense_benefit'] == 42.0
+    assert serialized.data['income_from_equity_investments'] == 0.0
+    assert serialized.data['preferred_stock_dividends'] == 0.0
+    assert serialized.data['redeemable_noncontrolling_interest'] == 0.0
+    assert serialized.data['extraordary_items_gain_loss'] == 0.0
+    assert serialized.data['temporary_equity'] == 0.0
+    assert serialized.data['costs_and_expenses'] == 0.0
+    assert serialized.data['non_current_assets'] == 583.0
+    assert serialized.data['net_cash_flows_discontinued'] == 0.0
+    assert serialized.data['income_loss'] == -1914.0
+    assert serialized.data['liabilities_and_equity'] == 15912.0
+    assert serialized.data['other_operating_income'] == 0.0
+    assert serialized.data['operating_income_loss'] == 0.0
+    assert serialized.data['net_income_parent'] == 0.0
+    assert serialized.data['equity'] == 0.0
+    assert serialized.data['net_cash_flows_operating_discontinued'] == 0.0
+    assert serialized.data['cost_of_revenue'] == 0.0
+    assert serialized.data['operating_expenses'] == 4445.0
+    assert serialized.data['noncurrent_liabilities'] == 0.0
+    assert serialized.data['current_liabilities'] == 0.0
+    assert serialized.data['net_cash_flows_investing'] == 0.0
+    assert serialized.data['stockholders_equity'] == 2064.0
+    assert serialized.data['net_income_loss'] == -1914.0
+    assert serialized.data['net_cash_flows_investing_continuing'] == 0.0
+    assert serialized.data['nonoperating_income_loss'] == 0.0
+    assert serialized.data['net_cash_flows_financing'] == 0.0
+    assert serialized.data['net_income_shareholders'] == 0.0
+    assert serialized.data['comprehensive_income'] == -1899.0
+    assert serialized.data['equity_attributable_interest'] == 0.0
+    assert serialized.data['commitments_and_contingencies'] == 0.0
+    assert serialized.data['comprehensive_income_parent'] == -1899.0
+    assert serialized.data['income_before_equity_investments'] == -1872.0
+    assert serialized.data['comprehensive_income_interest'] == 0.0
+    assert serialized.data['other_comprehensive_income'] == 0.0
+    assert serialized.data['equity_attributable_parent'] == 0.0
+    assert serialized.data['assets'] == 15912.0
+    assert serialized.data['gross_profit'] == 2784.0
+    assert serialized.data['net_cash_flows_operating_continuing'] == 0.0
+    assert serialized.data['current_assets'] == 0.0
+    assert serialized.data['interest_and_debt_expense'] == 0.0
+    assert serialized.data['net_income_loss_noncontrolling'] == 0.0
