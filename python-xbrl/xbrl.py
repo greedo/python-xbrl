@@ -59,10 +59,12 @@ class XBRLParser(object):
         if xbrl.find('xbrl') is None and xbrl_base is None:
             raise XBRLParserException('The xbrl file is empty!')
 
-        # is the document root needed for parsing?
-        self.xbrl_base = xbrl_base.name.split(":")[0] + ":"
-        if xbrl.find(name=re.compile(self.xbrl_base + "context",
-                     re.IGNORECASE | re.MULTILINE)) is None:
+        # lookahead to see if we need a custom leading element
+        lookahead = xbrl.find(name=re.compile("context",
+                              re.IGNORECASE | re.MULTILINE)).name
+        if ":" in lookahead:
+            self.xbrl_base = lookahead.split(":")[0] + ":"
+        else:
             self.xbrl_base = ""
 
         return xbrl
