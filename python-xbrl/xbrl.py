@@ -64,6 +64,7 @@ class XBRLParser(object):
         xbrl_file = XBRLPreprocessedFile(file_handler)
 
         xbrl = soup_maker(xbrl_file.fh)
+        file_handler.close()
         xbrl_base = xbrl.find(name=re.compile("xbrl*:*"))
 
         if xbrl.find('xbrl') is None and xbrl_base is None:
@@ -101,22 +102,22 @@ class XBRLParser(object):
         context = int(context)
 
         if context == 90:
-            context_extended = range(90, 99)
+            context_extended = list(range(90, 99))
             expected_start_date = \
                 datetime.datetime.strptime(doc_date, "%Y%m%d") \
                 - datetime.timedelta(days=90)
         elif context == 180:
-            context_extended = range(180, 185)
+            context_extended = list(range(180, 185))
             expected_start_date = \
                 datetime.datetime.strptime(doc_date, "%Y%m%d") \
                 - datetime.timedelta(days=180)
         elif context == 270:
-            context_extended = range(270, 275)
+            context_extended = list(range(270, 275))
             expected_start_date = \
                 datetime.datetime.strptime(doc_date, "%Y%m%d") \
                 - datetime.timedelta(days=270)
         elif context == 360:
-            context_extended = range(360, 365)
+            context_extended = list(range(360, 365))
             expected_start_date = \
                 datetime.datetime.strptime(doc_date, "%Y%m%d") \
                 - datetime.timedelta(days=360)
