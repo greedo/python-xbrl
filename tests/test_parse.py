@@ -16,14 +16,23 @@ def test_parse_empty_file():
     xbrl_parser = XBRLParser()
     file_to_parse = "tests/nothing.xml"
     with pytest.raises(XBRLParserException):
+        xbrl_parser.parse(file_to_parse)
+
+
+def test_open_file_handle():
+    xbrl_parser = XBRLParser()
+    file_to_parse = "tests/sam-20130629.xml"
+    try:
         xbrl_parser.parse(file(file_to_parse))
+    except NameError:
+        pass
 
 
 def test_parse_GAAP10Q_RRDonnelley():
 
     xbrl_parser = XBRLParser(0)
     file_to_parse = "tests/sam-20130629.xml"
-    xbrl = xbrl_parser.parse(file(file_to_parse))
+    xbrl = xbrl_parser.parse(file_to_parse)
     gaap_obj = xbrl_parser.parseGAAP(xbrl,
                                      str(file_to_parse
                                          .split("-")[1].split(".")[0][:4]
@@ -86,7 +95,7 @@ def test_parse_GAAP10K_RRDonnelley():
 
     xbrl_parser = XBRLParser(0)
     file_to_parse = "tests/sam-20131228.xml"
-    xbrl = xbrl_parser.parse(file(file_to_parse))
+    xbrl = xbrl_parser.parse(file_to_parse)
     gaap_obj = xbrl_parser.parseGAAP(xbrl,
                                      str(file_to_parse
                                          .split("-")[1].split(".")[0][:4]
@@ -149,7 +158,7 @@ def test_parse_GAAP10K_Webfilings():
 
     xbrl_parser = XBRLParser(0)
     file_to_parse = "tests/goog-20131231.xml"
-    xbrl = xbrl_parser.parse(file(file_to_parse))
+    xbrl = xbrl_parser.parse(file_to_parse)
     gaap_obj = xbrl_parser.parseGAAP(xbrl,
                                      str(file_to_parse
                                          .split("-")[1].split(".")[0][:4]
@@ -212,7 +221,7 @@ def test_parse_GAAP10Q_Webfilings():
 
     xbrl_parser = XBRLParser(0)
     file_to_parse = "tests/goog-20140630.xml"
-    xbrl = xbrl_parser.parse(file(file_to_parse))
+    xbrl = xbrl_parser.parse(file_to_parse)
     gaap_obj = xbrl_parser.parseGAAP(xbrl,
                                      str(file_to_parse
                                          .split("-")[1].split(".")[0][:4]
@@ -274,7 +283,7 @@ def test_parse_GAAP10Q_Rivet():
 
     xbrl_parser = XBRLParser(0)
     file_to_parse = "tests/c289-20140503.xml"
-    xbrl = xbrl_parser.parse(file(file_to_parse))
+    xbrl = xbrl_parser.parse(file_to_parse)
     gaap_obj = xbrl_parser.parseGAAP(xbrl,
                                      str(file_to_parse
                                          .split("-")[1].split(".")[0][:4]
@@ -336,7 +345,7 @@ def test_parse_GAAP10K_Rivet():
 
     xbrl_parser = XBRLParser(0)
     file_to_parse = "tests/rsh-20131231.xml"
-    xbrl = xbrl_parser.parse(file(file_to_parse))
+    xbrl = xbrl_parser.parse(file_to_parse)
     gaap_obj = xbrl_parser.parseGAAP(xbrl,
                                      str(file_to_parse
                                          .split("-")[1].split(".")[0][:4]
@@ -398,7 +407,7 @@ def test_parse_GAAP10Q_QXInteractive():
 
     xbrl_parser = XBRLParser(0)
     file_to_parse = "tests/aaoi-20140630.xml"
-    xbrl = xbrl_parser.parse(file(file_to_parse))
+    xbrl = xbrl_parser.parse(file_to_parse)
     gaap_obj = xbrl_parser.parseGAAP(xbrl,
                                      str(file_to_parse
                                          .split("-")[1].split(".")[0][:4]
@@ -460,7 +469,7 @@ def test_parse_GAAP10K_ThomsonReuters():
 
     xbrl_parser = XBRLParser(0)
     file_to_parse = "tests/aaoi-20131231.xml"
-    xbrl = xbrl_parser.parse(file(file_to_parse))
+    xbrl = xbrl_parser.parse(file_to_parse)
     gaap_obj = xbrl_parser.parseGAAP(xbrl,
                                      str(file_to_parse
                                          .split("-")[1].split(".")[0][:4]
@@ -522,7 +531,7 @@ def test_parse_GAAP10Q_Fujitsu():
 
     xbrl_parser = XBRLParser(0)
     file_to_parse = "tests/aaww-20140630.xml"
-    xbrl = xbrl_parser.parse(file(file_to_parse))
+    xbrl = xbrl_parser.parse(file_to_parse)
     gaap_obj = xbrl_parser.parseGAAP(xbrl,
                                      str(file_to_parse
                                          .split("-")[1].split(".")[0][:4]
@@ -584,7 +593,7 @@ def test_parse_GAAP10K_Fujitsu():
 
     xbrl_parser = XBRLParser(0)
     file_to_parse = "tests/aaww-20131231.xml"
-    xbrl = xbrl_parser.parse(file(file_to_parse))
+    xbrl = xbrl_parser.parse(file_to_parse)
     gaap_obj = xbrl_parser.parseGAAP(xbrl,
                                      str(file_to_parse
                                          .split("-")[1].split(".")[0][:4]

@@ -54,10 +54,17 @@ class XBRLParser(object):
 
         xbrl_obj = XBRL()
 
+        # if no file handle was given create our own
+        if not hasattr(file_handle, 'read'):
+            file_handler = open(file_handle)
+        else:
+            file_handler = file_handle
+
         # Store the headers
-        xbrl_file = XBRLPreprocessedFile(file_handle)
+        xbrl_file = XBRLPreprocessedFile(file_handler)
 
         xbrl = soup_maker(xbrl_file.fh)
+        file_handler.close()
         xbrl_base = xbrl.find(name=re.compile("xbrl*:*"))
 
         if xbrl.find('xbrl') is None and xbrl_base is None:
