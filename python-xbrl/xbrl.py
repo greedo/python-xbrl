@@ -64,7 +64,6 @@ class XBRLParser(object):
         xbrl_file = XBRLPreprocessedFile(file_handler)
 
         xbrl = soup_maker(xbrl_file.fh)
-        file_handler.close()
         xbrl_base = xbrl.find(name=re.compile("xbrl*:*"))
 
         if xbrl.find('xbrl') is None and xbrl_base is None:
