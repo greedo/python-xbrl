@@ -548,14 +548,17 @@ class XBRLParser(object):
 
     @staticmethod
     def trim_decimals(s, precision=-3):
-        try:
-            encoded = s.encode('ascii', 'ignore')
-        except ValueError:
-            return 0
+        encoded = s.encode('ascii', 'ignore')
+        str_val = ""
         if six.PY3:
-            return float(str(encoded, encoding='ascii', errors='ignore')[:precision])
+            str_val = str(encoded, encoding='ascii',
+                          errors='ignore')[:precision]
         else:
-            return float(str(encoded)[:precision])
+            str_val = str(encoded)[:precision]
+        if len(str_val) > 0:
+            return float(str_val)
+        else:
+            return 0
 
     @staticmethod
     def is_number(s):
