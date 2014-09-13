@@ -4,3 +4,4 @@ marshmallow
 beautifulsoup4
 ordereddict
 lxml
+six

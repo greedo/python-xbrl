@@ -2,6 +2,7 @@ import re
 from marshmallow import Serializer, fields
 import datetime
 import collections
+import six
 
 try:
     from StringIO import StringIO
@@ -98,6 +99,9 @@ class XBRLParser(object):
         # current is the previous quarter
         if context == "current":
             context = 90
+
+        if context == "year":
+            context = 360
 
         context = int(context)
 
@@ -545,10 +549,13 @@ class XBRLParser(object):
     @staticmethod
     def trim_decimals(s, precision=-3):
         try:
-            float(str(s.encode('ascii', 'ignore'))[:precision])
+            encoded = s.encode('ascii', 'ignore')
         except ValueError:
             return 0
-        return float(str(s.encode('ascii', 'ignore'))[:precision])
+        if six.PY3:
+            return float(str(encoded, encoding='ascii', errors='ignore')[:precision])
+        else:
+            return float(str(encoded)[:precision])
 
     @staticmethod
     def is_number(s):
