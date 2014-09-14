@@ -105,26 +105,11 @@ class XBRLParser(object):
 
         context = int(context)
 
-        if context == 90:
-            context_extended = list(range(90, 99))
+        if context % 90 == 0:
+            context_extended = list(range(context, context + 9))
             expected_start_date = \
                 datetime.datetime.strptime(doc_date, "%Y%m%d") \
-                - datetime.timedelta(days=90)
-        elif context == 180:
-            context_extended = list(range(180, 185))
-            expected_start_date = \
-                datetime.datetime.strptime(doc_date, "%Y%m%d") \
-                - datetime.timedelta(days=180)
-        elif context == 270:
-            context_extended = list(range(270, 275))
-            expected_start_date = \
-                datetime.datetime.strptime(doc_date, "%Y%m%d") \
-                - datetime.timedelta(days=270)
-        elif context == 360:
-            context_extended = list(range(360, 365))
-            expected_start_date = \
-                datetime.datetime.strptime(doc_date, "%Y%m%d") \
-                - datetime.timedelta(days=360)
+                - datetime.timedelta(days=context)
         elif context == "instant":
             expected_start_date = None
         else:
