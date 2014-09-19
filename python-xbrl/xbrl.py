@@ -635,7 +635,7 @@ class XBRLParser(object):
                     return 0
             else:
                 return 0
-        except Exception, e:
+        except Exception as e:
             if ignore_errors == 0:
                 raise XBRLParserException('value extraction error')
             elif ignore_errors == 1:
