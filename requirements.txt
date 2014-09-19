@@ -5,3 +5,4 @@ beautifulsoup4
 ordereddict
 lxml
 six
+logging
