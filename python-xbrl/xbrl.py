@@ -17,6 +17,7 @@ else:
 
 
 def soup_maker(fh):
+    """ Takes a file handler returns BeautifulSoup"""
     try:
         from bs4 import BeautifulSoup
         soup = BeautifulSoup(fh, "lxml")
@@ -49,11 +50,10 @@ class XBRLParser(object):
 
     @classmethod
     def parse(self, file_handle):
-        '''
+        """
         parse is the main entry point for an XBRLParser. It takes a file
         handle.
-
-        '''
+        """
 
         xbrl_obj = XBRL()
 
@@ -90,9 +90,9 @@ class XBRLParser(object):
                   doc_type="10-K",
                   context="current",
                   ignore_errors=0):
-        '''
-        Parse GAAP in xbrl-land and return a GAAP object.
-        '''
+        """
+        Parse GAAP from our XBRL soup and return a GAAP object.
+        """
         gaap_obj = GAAP()
 
         if ignore_errors == 2:
@@ -557,10 +557,10 @@ class XBRLParser(object):
         return gaap_obj
 
     @classmethod
-    def parseUnique(self, xbrl):
-        '''
-        Parse company unique entities in xbrl-land and return an Unique object.
-        '''
+    def parse_unique(self, xbrl):
+        """
+        Parse company unique entities from XBRL and return an Unique object.
+        """
         unique_obj = Unique()
 
         unique_data = xbrl.find_all(re.compile('^(?!us-gaap|xbrl*):\s*'))
@@ -569,6 +569,9 @@ class XBRLParser(object):
 
     @staticmethod
     def trim_decimals(s, precision=-3):
+        """
+        Convert from scientific notation using precision
+        """
         encoded = s.encode('ascii', 'ignore')
         str_val = ""
         if six.PY3:
@@ -583,26 +586,14 @@ class XBRLParser(object):
 
     @staticmethod
     def is_number(s):
+        """
+        Test if value is numeric
+        """
         try:
             s = float(s)
             return True
         except ValueError:
             return False
-
-    @staticmethod
-    def total_elements(elements, precision=0):
-
-        elements_total = 0
-        for element in elements:
-            if XBRLParser().is_number(element.text):
-                try:
-                    elements_total += \
-                        float(XBRLParser().trim_decimals(element.text,
-                                                         int(precision)))
-                except ValueError:
-                    elements_total += \
-                        float(XBRLParser().trim_decimals(element.text))
-        return elements_total
 
     @classmethod
     def data_processing(self,
@@ -611,6 +602,10 @@ class XBRLParser(object):
                         ignore_errors,
                         logger,
                         context_ids=[]):
+        """
+        Process a XBRL tag object and extract the correct value as
+        stated by the context.
+        """
 
         try:
             # Extract the correct values by context
@@ -690,6 +685,7 @@ class XBRL(object):
         return ""
 
 
+# Base GAAP object
 class GAAP(object):
     def __init__(self,
                  assets=0.0,
