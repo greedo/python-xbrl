@@ -57,7 +57,7 @@ Then you can parse the document using different parsers
 
 ::
 
-    gaap_obj = XBRLParser.parseGAAP(xbrl, doc_date="20131228", doc_type="10-K", context="current")
+    gaap_obj = XBRLParser.parseGAAP(xbrl, doc_date="20131228", doc_type="10-K", context="current", ignore_errors=0)
 
 Now we have a ``GAAP`` model object that has the GAAP parsed elements
 from the document.
@@ -66,6 +66,7 @@ This model object supports the several different features including:
 
 -  ``doc_type`` currently only 10-K and 10-Q is supported
 -  ``context`` current, year, and instant contexts are supported. If available you can also get previous quarter information by number of days from doc date. Example: 90, 180, etc.
+-  Error handling. ``0`` raise exception for all parsing errors and halt parsing, ``1`` Supress all parsing errors and continue parsing, ``2`` Log all parsing errors and continue parsing 
 
 You can serialize the GAAP model object into a serialized object
 acceptable for rending into a standard format such as JSON or HTTP API.
