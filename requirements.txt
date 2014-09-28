@@ -4,4 +4,4 @@ marshmallow
 beautifulsoup4
 ordereddict
 lxml
-futures
+future
