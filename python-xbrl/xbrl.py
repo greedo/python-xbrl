@@ -1,9 +1,9 @@
-from future.builtins import str
+import re
 from marshmallow import Serializer, fields
 import datetime
 import collections
+import six
 import logging
-import re
 
 try:
     from StringIO import StringIO
@@ -568,15 +568,19 @@ class XBRLParser(object):
         return unique_obj
 
     @staticmethod
-    def trim_decimals(tag_value, precision=-3):
+    def trim_decimals(s, precision=-3):
         """
         Convert from scientific notation using precision
         """
-
-        encoded_str = str(tag_value, encoding='ascii',
-                      errors='ignore')[:precision]
-        if len(encoded_str) > 0:
-            return float(encoded_str)
+        encoded = s.encode('ascii', 'ignore')
+        str_val = ""
+        if six.PY3:
+            str_val = str(encoded, encoding='ascii',
+                          errors='ignore')[:precision]
+        else:
+            str_val = str(encoded)[:precision]
+        if len(str_val) > 0:
+            return float(str_val)
         else:
             return 0
 
