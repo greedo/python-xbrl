@@ -1,4 +1,7 @@
-from distutils.core import setup
+try:
+    from setuptools import setup
+except ImportError:
+    from distutils.core import setup
 import os
 
 long_description = 'library for parsing xbrl documents'
@@ -7,13 +10,15 @@ if os.path.exists('README.rst'):
 
 setup(
     name='python-xbrl',
-    version='1.0.7',
+    version='1.0.8',
     description='library for parsing xbrl documents',
     author='Joe Cabrera',
     author_email='jcabrera@eminorlabs.com',
     url='https://github.com/greedo/python-xbrl/',
     license='Apache License',
     keywords='xbrl, Financial, Accounting, file formats',
+    packages=['xbrl'],
+    install_requires=['pytest', 'pep8', 'marshmallow', 'beautifulsoup4', 'ordereddict', 'lxml', 'six'],
     classifiers=[
         'Intended Audience :: Developers',
         'Natural Language :: English',
@@ -27,6 +32,5 @@ setup(
         'Topic :: Software Development :: Libraries :: Python Modules',
         'Topic :: Office/Business :: Financial',
     ],
-    scripts=['python-xbrl/xbrl.py'],
     long_description=long_description
 )
