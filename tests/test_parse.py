@@ -10,6 +10,7 @@ except ImportError:
 
 from xbrl import XBRLParser, GAAP, GAAPSerializer, XBRLParserException
 
+
 def test_parse_empty_file():
     xbrl_parser = XBRLParser()
     file_to_parse = "tests/nothing.xml"

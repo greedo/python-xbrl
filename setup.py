@@ -18,7 +18,8 @@ setup(
     license='Apache License',
     keywords='xbrl, Financial, Accounting, file formats',
     packages=['xbrl'],
-    install_requires=['pytest', 'pep8', 'marshmallow', 'beautifulsoup4', 'ordereddict', 'lxml', 'six'],
+    install_requires=['pytest', 'pep8', 'marshmallow',
+    'beautifulsoup4', 'ordereddict', 'lxml', 'six'],
     classifiers=[
         'Intended Audience :: Developers',
         'Natural Language :: English',
