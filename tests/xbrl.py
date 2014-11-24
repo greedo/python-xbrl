@@ -1,1 +1,1 @@
-../python-xbrl/xbrl.py
+../xbrl/xbrl.py

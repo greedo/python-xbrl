@@ -8,7 +8,7 @@ try:
 except ImportError:
     from io import StringIO
 
-from xbrl import *
+from xbrl import XBRLParser, GAAP, GAAPSerializer, XBRLParserException
 
 def test_parse_empty_file():
     xbrl_parser = XBRLParser()
