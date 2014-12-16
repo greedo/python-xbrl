@@ -100,6 +100,22 @@ Once you have that, ``cd`` into the root directory of this repo and
 ::
 
     py.test --tb=line -vs
+    
+Bugs
+-------
+
+For any bugs you encounter please open a Github
+`issue <https://github.com/greedo/python-xbrl/issues>`__
+
+Contribute
+----------
+
+#. Check for open issues or open a fresh issue to start a discussion around a feature idea or a bug. 
+#. If you feel uncomfortable or uncertain about an issue or your changes, feel free to email @greedo and he will happily help you via email, Skype, remote pairing or whatever you are comfortable with.
+#. Fork `the repository <https://github.com/greedo/python-xbrl>`__  on GitHub to start making your changes to the **master** branch (or branch off of it).
+#. Write a test which shows that the bug was fixed or that the feature works as expected.
+#. Send a pull request and bug the maintainer until it gets merged and published. :) Make sure to add yourself to `AUTHORS <https://github.com/greedo/python-xbrl/blob/master/AUTHORS.rst>`__.
+
 
 License
 -------
