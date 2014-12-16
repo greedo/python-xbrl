@@ -106,6 +106,7 @@ class XBRLParser(object):
         # the default is today
         if doc_date == "":
             doc_date = str(datetime.date.today())
+        doc_date = re.sub(r"[^0-9]+", "", doc_date)
 
         # current is the previous quarter
         if context == "current":
