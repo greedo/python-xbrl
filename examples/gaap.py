@@ -1,5 +1,3 @@
-from __future__ import print_function
-
 from xbrl import XBRLParser, GAAP, GAAPSerializer
 
 xbrl_parser = XBRLParser(precision=0)
@@ -18,4 +16,4 @@ gaap_obj = xbrl_parser.parseGAAP(xbrl,
 serialized = GAAPSerializer(gaap_obj)
 
 # Print out the serialized GAAP data
-print (serialized.data)
+print serialized.data
