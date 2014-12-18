@@ -1,2 +1,0 @@
-include *.md
-recursive-include examples python-xbrl *.md *.py

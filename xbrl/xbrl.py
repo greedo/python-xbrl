@@ -1,3 +1,6 @@
+#! /usr/bin/env python
+# encoding: utf-8
+
 import re
 from marshmallow import Serializer, fields
 import datetime
