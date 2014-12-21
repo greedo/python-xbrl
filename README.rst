@@ -15,6 +15,8 @@ The easiest way to install python-xbrl is with pip
 ::
 
     sudo pip install python-xbrl
+    
+Made sure your **sys.path** is correct.
 
 Usage
 -----
