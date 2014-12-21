@@ -10,14 +10,14 @@ if os.path.exists('README.rst'):
 
 setup(
     name='python-xbrl',
-    version='1.0.9',
+    version='1.1.0',
     description='library for parsing xbrl documents',
     author='Joe Cabrera',
     author_email='jcabrera@eminorlabs.com',
     url='https://github.com/greedo/python-xbrl/',
     license='Apache License',
     keywords='xbrl, Financial, Accounting, file formats',
-    packages=find_packages(exclude=['tests*']),
+    packages=['xbrl'],
     install_requires=['pytest', 'pep8', 'marshmallow',
     'beautifulsoup4', 'ordereddict', 'lxml', 'six'],
     classifiers=[
