@@ -3,6 +3,6 @@
 
 from __future__ import absolute_import
 
-__version__ = '1.0.9'
+version = (1, 0, 9)
 
-from .xbrl import XBRLParser
+from .parse import XBRLParser
