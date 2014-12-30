@@ -27,7 +27,7 @@ docstrings in the code.
 Requirements
 ------------
 
-- Python >= 2.6 or >= 3.3
+- Python >= 2.6 or >= 3.4
 
 python-xbrl relies on `beautifulsoup4 <http://beautiful-soup-4.readthedocs.org/en/latest/>`__ 
 which sits on top of the python XML parser `lxml <http://lxml.de/>`__. It also requires 
