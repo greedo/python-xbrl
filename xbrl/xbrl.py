@@ -47,9 +47,8 @@ class XBRLParserException(Exception):
 
 class XBRLParser(object):
 
-    def __init__(self, precision=0, ignore_errors=False):
+    def __init__(self, precision=0):
         self.precision = precision
-        self.ignore_errors = ignore_errors
 
     @classmethod
     def parse(self, file_handle):
