@@ -1,17 +1,17 @@
 #! /usr/bin/env python
 # encoding: utf-8
 
-import os
-import sys
-sys.path.insert(0, os.path.abspath('python-xbrl'))
+from xbrl import XBRLParser, GAAP, GAAPSerializer, XBRLParserException
 import pytest
+import sys
+import os
 
 try:
     from StringIO import StringIO
 except ImportError:
     from io import StringIO
 
-from xbrl import XBRLParser, GAAP, GAAPSerializer, XBRLParserException
+sys.path.insert(0, os.path.abspath('python-xbrl'))
 
 
 def test_parse_empty_file():
@@ -37,10 +37,10 @@ def test_parse_GAAP10Q_RRDonnelley():
     xbrl = xbrl_parser.parse(file_to_parse)
     gaap_obj = xbrl_parser.parseGAAP(xbrl,
                                      str(file_to_parse
-                                         .split("-")[1].split(".")[0][:4]
-                                         + file_to_parse.split("-")[1]
-                                         .split(".")[0][4:6]
-                                         + file_to_parse.split("-")[1]
+                                         .split("-")[1].split(".")[0][:4] +
+                                         file_to_parse.split("-")[1]
+                                         .split(".")[0][4:6] +
+                                         file_to_parse.split("-")[1]
                                          .split(".")[0][6:8]),
                                      "10-K", "current")
 
@@ -100,10 +100,10 @@ def test_parse_GAAP10K_RRDonnelley():
     xbrl = xbrl_parser.parse(file_to_parse)
     gaap_obj = xbrl_parser.parseGAAP(xbrl,
                                      str(file_to_parse
-                                         .split("-")[1].split(".")[0][:4]
-                                         + file_to_parse.split("-")[1]
-                                         .split(".")[0][4:6]
-                                         + file_to_parse.split("-")[1]
+                                         .split("-")[1].split(".")[0][:4] +
+                                         file_to_parse.split("-")[1]
+                                         .split(".")[0][4:6] +
+                                         file_to_parse.split("-")[1]
                                          .split(".")[0][6:8]),
                                      "10-K", "current")
 
@@ -163,10 +163,10 @@ def test_parse_GAAP10K_Webfilings():
     xbrl = xbrl_parser.parse(file_to_parse)
     gaap_obj = xbrl_parser.parseGAAP(xbrl,
                                      str(file_to_parse
-                                         .split("-")[1].split(".")[0][:4]
-                                         + file_to_parse.split("-")[1]
-                                         .split(".")[0][4:6]
-                                         + file_to_parse.split("-")[1]
+                                         .split("-")[1].split(".")[0][:4] +
+                                         file_to_parse.split("-")[1]
+                                         .split(".")[0][4:6] +
+                                         file_to_parse.split("-")[1]
                                          .split(".")[0][6:8]),
                                      "10-K", "current")
 
@@ -226,10 +226,10 @@ def test_parse_GAAP10Q_Webfilings():
     xbrl = xbrl_parser.parse(file_to_parse)
     gaap_obj = xbrl_parser.parseGAAP(xbrl,
                                      str(file_to_parse
-                                         .split("-")[1].split(".")[0][:4]
-                                         + file_to_parse.split("-")[1]
-                                         .split(".")[0][4:6]
-                                         + file_to_parse.split("-")[1]
+                                         .split("-")[1].split(".")[0][:4] +
+                                         file_to_parse.split("-")[1]
+                                         .split(".")[0][4:6] +
+                                         file_to_parse.split("-")[1]
                                          .split(".")[0][6:8]),
                                      "10-Q", "current")
 
@@ -288,10 +288,10 @@ def test_parse_GAAP10Q_Rivet():
     xbrl = xbrl_parser.parse(file_to_parse)
     gaap_obj = xbrl_parser.parseGAAP(xbrl,
                                      str(file_to_parse
-                                         .split("-")[1].split(".")[0][:4]
-                                         + file_to_parse.split("-")[1]
-                                         .split(".")[0][4:6]
-                                         + file_to_parse.split("-")[1]
+                                         .split("-")[1].split(".")[0][:4] +
+                                         file_to_parse.split("-")[1]
+                                         .split(".")[0][4:6] +
+                                         file_to_parse.split("-")[1]
                                          .split(".")[0][6:8]),
                                      "10-Q", "current")
 
@@ -350,10 +350,10 @@ def test_parse_GAAP10K_Rivet():
     xbrl = xbrl_parser.parse(file_to_parse)
     gaap_obj = xbrl_parser.parseGAAP(xbrl,
                                      str(file_to_parse
-                                         .split("-")[1].split(".")[0][:4]
-                                         + file_to_parse.split("-")[1]
-                                         .split(".")[0][4:6]
-                                         + file_to_parse.split("-")[1]
+                                         .split("-")[1].split(".")[0][:4] +
+                                         file_to_parse.split("-")[1]
+                                         .split(".")[0][4:6] +
+                                         file_to_parse.split("-")[1]
                                          .split(".")[0][6:8]),
                                      "10-K", "current")
 
@@ -412,10 +412,10 @@ def test_parse_GAAP10Q_QXInteractive():
     xbrl = xbrl_parser.parse(file_to_parse)
     gaap_obj = xbrl_parser.parseGAAP(xbrl,
                                      str(file_to_parse
-                                         .split("-")[1].split(".")[0][:4]
-                                         + file_to_parse.split("-")[1]
-                                         .split(".")[0][4:6]
-                                         + file_to_parse.split("-")[1]
+                                         .split("-")[1].split(".")[0][:4] +
+                                         file_to_parse.split("-")[1]
+                                         .split(".")[0][4:6] +
+                                         file_to_parse.split("-")[1]
                                          .split(".")[0][6:8]),
                                      "10-Q", "current")
 
@@ -474,10 +474,10 @@ def test_parse_GAAP10K_ThomsonReuters():
     xbrl = xbrl_parser.parse(file_to_parse)
     gaap_obj = xbrl_parser.parseGAAP(xbrl,
                                      str(file_to_parse
-                                         .split("-")[1].split(".")[0][:4]
-                                         + file_to_parse.split("-")[1]
-                                         .split(".")[0][4:6]
-                                         + file_to_parse.split("-")[1]
+                                         .split("-")[1].split(".")[0][:4] +
+                                         file_to_parse.split("-")[1]
+                                         .split(".")[0][4:6] +
+                                         file_to_parse.split("-")[1]
                                          .split(".")[0][6:8]),
                                      "10-K", "current")
 
@@ -536,10 +536,10 @@ def test_parse_GAAP10Q_Fujitsu():
     xbrl = xbrl_parser.parse(file_to_parse)
     gaap_obj = xbrl_parser.parseGAAP(xbrl,
                                      str(file_to_parse
-                                         .split("-")[1].split(".")[0][:4]
-                                         + file_to_parse.split("-")[1]
-                                         .split(".")[0][4:6]
-                                         + file_to_parse.split("-")[1]
+                                         .split("-")[1].split(".")[0][:4] +
+                                         file_to_parse.split("-")[1]
+                                         .split(".")[0][4:6] +
+                                         file_to_parse.split("-")[1]
                                          .split(".")[0][6:8]),
                                      "10-Q", "current")
 
@@ -598,10 +598,10 @@ def test_parse_GAAP10K_Fujitsu():
     xbrl = xbrl_parser.parse(file_to_parse)
     gaap_obj = xbrl_parser.parseGAAP(xbrl,
                                      str(file_to_parse
-                                         .split("-")[1].split(".")[0][:4]
-                                         + file_to_parse.split("-")[1]
-                                         .split(".")[0][4:6]
-                                         + file_to_parse.split("-")[1]
+                                         .split("-")[1].split(".")[0][:4] +
+                                         file_to_parse.split("-")[1]
+                                         .split(".")[0][4:6] +
+                                         file_to_parse.split("-")[1]
                                          .split(".")[0][6:8]),
                                      "10-K", "current")
 

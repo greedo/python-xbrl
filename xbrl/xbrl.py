@@ -162,8 +162,8 @@ class XBRLParser(object):
                         instant = \
                             datetime.datetime.strptime(re.compile('[^\d]+')
                                                        .sub('', context_tag
-                                                       .find(doc_root
-                                                             + "instant")
+                                                       .find(doc_root +
+                                                             "instant")
                                                         .text), "%Y%m%d")
                         if instant == expected_end_date:
                             context_ids.append(context_id)
@@ -174,20 +174,20 @@ class XBRLParser(object):
                         found_start_date = \
                             datetime.datetime.strptime(re.compile('[^\d]+')
                                                        .sub('', context_tag
-                                                       .find(doc_root
-                                                             + "period")
-                                                       .find(doc_root
-                                                            + "startdate")
+                                                       .find(doc_root +
+                                                             "period")
+                                                       .find(doc_root +
+                                                             "startdate")
                                                         .text), "%Y%m%d")
-                    if context_tag.find(doc_root + "period").find(doc_root
-                    + "enddate"):
+                    if context_tag.find(doc_root + "period").find(doc_root +
+                    "enddate"):
                         found_end_date = \
                             datetime.datetime.strptime(re.compile('[^\d]+')
                                                        .sub('', context_tag
-                                                       .find(doc_root
-                                                             + "period")
-                                                       .find(doc_root
-                                                             + "enddate")
+                                                       .find(doc_root +
+                                                             "period")
+                                                       .find(doc_root +
+                                                             "enddate")
                                                        .text), "%Y%m%d")
                     if found_end_date and found_start_date:
                         for ce in context_extended:
@@ -639,8 +639,8 @@ class XBRLParser(object):
             elif ignore_errors == 1:
                 return 0
             elif ignore_errors == 2:
-                logger.error(str(e) + " error at "
-                    + ''.join(elements[0].text))
+                logger.error(str(e) + " error at " +
+                    ''.join(elements[0].text))
 
 
 # Preprocessing to fix broken XML
