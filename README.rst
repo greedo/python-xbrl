@@ -74,14 +74,14 @@ You can serialize the GAAP model object into a serialized object
 acceptable for rending into a standard format such as JSON or HTTP API.
 
 ::
-
-    serialized = GAAPSerializer(gaap_obj)
+    serializer = GAAPSerializer()
+    result = serializer.dump(gaap_obj)
 
 You can also just view the data in the serialized object
 
 ::
 
-    print serialized.data
+    print result.data
 
 You can apply various parsers to the base ``XBRLParser`` object to get
 different data than just GAAP data from the document. In addition as

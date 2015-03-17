@@ -18,7 +18,8 @@ gaap_obj = xbrl_parser.parseGAAP(xbrl,
                                  ignore_errors=0)
 
 # Serialize the GAAP data
-serialized = GAAPSerializer(gaap_obj)
+serializer = GAAPSerializer()
+result = serializer.dump(gaap_obj)
 
 # Print out the serialized GAAP data
-print(serialized.data)
+print(result.data)
