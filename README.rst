@@ -74,6 +74,7 @@ You can serialize the GAAP model object into a serialized object
 acceptable for rending into a standard format such as JSON or HTTP API.
 
 ::
+
     serializer = GAAPSerializer()
     result = serializer.dump(gaap_obj)
 
