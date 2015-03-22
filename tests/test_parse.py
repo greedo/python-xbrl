@@ -661,3 +661,65 @@ def test_parse_GAAP10K_Fujitsu():
     assert result.data['current_assets'] == 0.0
     assert result.data['interest_and_debt_expense'] == 0.0
     assert result.data['net_income_loss_noncontrolling'] == 0.0
+
+
+def test_parse_GAAP10Q_Ez_XBRL():
+
+    xbrl_parser = XBRLParser(0)
+    file_to_parse = "tests/ggho-20140930.xml"
+    xbrl = xbrl_parser.parse(file_to_parse)
+    gaap_obj = xbrl_parser.parseGAAP(xbrl,
+                                     str(file_to_parse
+                                         .split("-")[1].split(".")[0][:4] +
+                                         file_to_parse.split("-")[1]
+                                         .split(".")[0][4:6] +
+                                         file_to_parse.split("-")[1]
+                                         .split(".")[0][6:8]),
+                                     "10-Q", "current")
+
+    serializer = GAAPSerializer()
+    result = serializer.dump(gaap_obj)
+
+    assert result.data['liabilities'] == 34273.0
+    assert result.data['net_cash_flows_financing_continuing'] == 0.0
+    assert result.data['revenue'] == 0.0
+    assert result.data['income_tax_expense_benefit'] == 127.0
+    assert result.data['income_from_equity_investments'] == 0.0
+    assert result.data['preferred_stock_dividends'] == 0.0
+    assert result.data['redeemable_noncontrolling_interest'] == 0.0
+    assert result.data['extraordary_items_gain_loss'] == 0.0
+    assert result.data['temporary_equity'] == 0.0
+    assert result.data['costs_and_expenses'] == 0.0
+    assert result.data['non_current_assets'] == -1078.0
+    assert result.data['net_cash_flows_discontinued'] == 0.0
+    assert result.data['income_loss'] == -7593.0
+    assert result.data['liabilities_and_equity'] == 79451.0
+    assert result.data['other_operating_income'] == 0.0
+    assert result.data['operating_income_loss'] == 0.0
+    assert result.data['net_income_parent'] == 0.0
+    assert result.data['equity'] == 0.0
+    assert result.data['net_cash_flows_operating_discontinued'] == 0.0
+    assert result.data['cost_of_revenue'] == 0.0
+    assert result.data['operating_expenses'] == 13026.0
+    assert result.data['noncurrent_liabilities'] == 0.0
+    assert result.data['current_liabilities'] == 0.0
+    assert result.data['net_cash_flows_investing'] == 0.0
+    assert result.data['stockholders_equity'] == 30543.0
+    assert result.data['net_income_loss'] == -8642.0
+    assert result.data['net_cash_flows_investing_continuing'] == 0.0
+    assert result.data['nonoperating_income_loss'] == 0.0
+    assert result.data['net_cash_flows_financing'] == 0.0
+    assert result.data['net_income_shareholders'] == 0.0
+    assert result.data['comprehensive_income'] == 0.0
+    assert result.data['equity_attributable_interest'] == 309.0
+    assert result.data['commitments_and_contingencies'] == 0.0
+    assert result.data['comprehensive_income_parent'] == 0.0
+    assert result.data['income_before_equity_investments'] == -8531.0
+    assert result.data['comprehensive_income_interest'] == 0.0
+    assert result.data['other_comprehensive_income'] == 0.0
+    assert result.data['equity_attributable_parent'] == 0.0
+    assert result.data['assets'] == 1078.0
+    assert result.data['gross_profit'] == 5433.0
+    assert result.data['net_cash_flows_operating_continuing'] == 0.0
+    assert result.data['current_assets'] == 0.0
+    assert result.data['interest_and_debt_expense'] == 0.0
