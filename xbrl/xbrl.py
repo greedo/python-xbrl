@@ -542,8 +542,8 @@ class XBRLParser(object):
                                  ignore_errors, logger, context_ids)
 
         net_cash_flows_investing_discontinued = \
-            xbrl.find_all(name=re.compile("(us-gaap:CashProvidedByUsedIn\
-                          InvestingActivitiesDiscontinuedOperations)",
+            xbrl.find_all(name=re.compile("(us-gaap:cashprovidedbyusedin\
+                          investingactivitiesdiscontinuedoperations)",
                           re.IGNORECASE | re.MULTILINE))
         gaap_obj.net_cash_flows_investing_discontinued = \
             self.data_processing(net_cash_flows_investing_discontinued, xbrl,
