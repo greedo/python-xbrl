@@ -1,7 +1,11 @@
 #! /usr/bin/env python
 # encoding: utf-8
 
-from xbrl import XBRLParser, GAAP, GAAPSerializer, XBRLParserException
+from xbrl import XBRLParser
+from xbrl import GAAP
+from xbrl import GAAPSerializer
+from xbrl import DEISerializer
+from xbrl import XBRLParserException
 import pytest
 import sys
 import os
@@ -763,3 +767,19 @@ def test_parse_GAAP10Q_Ez_XBRL():
     assert result.data['common_shares_outstanding'] == 0.0
     assert result.data['common_shares_issued'] == 0.0
     assert result.data['common_shares_authorized'] == 0.0
+
+
+def test_parse_DEI10Q_RRDonnelley():
+
+    xbrl_parser = XBRLParser(0)
+    file_to_parse = "tests/sam-20130629.xml"
+    xbrl = xbrl_parser.parse(file_to_parse)
+    dei_obj = xbrl_parser.parseDEI(xbrl)
+
+    serializer = DEISerializer()
+    result = serializer.dump(dei_obj)
+
+    assert result.data['trading_symbol'] == "SAM"
+    assert result.data['company_name'] == "BOSTON BEER CO INC"
+    assert result.data['shares_outstanding'] == 4007355.0
+    assert result.data['public_float'] == 0.0
