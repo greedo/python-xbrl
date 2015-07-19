@@ -565,6 +565,22 @@ class XBRLParser(object):
             self.data_processing(common_shares_outstanding, xbrl,
                                  ignore_errors, logger, context_ids)
 
+        common_shares_issued = \
+            xbrl.find_all(name=re.compile("(us-gaap:commonstockshares\
+                          issued)",
+                          re.IGNORECASE | re.MULTILINE))
+        gaap_obj.common_shares_issued = \
+            self.data_processing(common_shares_issued, xbrl,
+                                 ignore_errors, logger, context_ids)
+
+        common_shares_authorized = \
+            xbrl.find_all(name=re.compile("(us-gaap:commonstockshares\
+                          authorized)",
+                          re.IGNORECASE | re.MULTILINE))
+        gaap_obj.common_shares_authorized = \
+            self.data_processing(common_shares_authorized, xbrl,
+                                 ignore_errors, logger, context_ids)
+
         return gaap_obj
 
     @classmethod
@@ -744,7 +760,9 @@ class GAAP(object):
                  net_cash_flows_operating_discontinued=0.0,
                  net_cash_flows_investing_discontinued=0.0,
                  net_cash_flows_discontinued=0.0,
-                 common_shares_outstanding=0.0):
+                 common_shares_outstanding=0.0,
+                 common_shares_issued=0.0,
+                 common_shares_authorized=0.0):
         self.assets = assets
         self.current_assets = current_assets
         self.non_current_assets = non_current_assets
@@ -798,6 +816,8 @@ class GAAP(object):
             net_cash_flows_investing_discontinued
         self.net_cash_flows_discontinued = net_cash_flows_discontinued
         self.common_shares_outstanding = common_shares_outstanding
+        self.common_shares_issued = common_shares_issued
+        self.common_shares_authorized = common_shares_authorized
 
 
 class GAAPSerializer(Serializer):
@@ -848,6 +868,8 @@ class GAAPSerializer(Serializer):
     net_cash_flows_investing_discontinued = fields.Number()
     net_cash_flows_discontinued = fields.Number()
     common_shares_outstanding = fields.Number()
+    common_shares_issued = fields.Number()
+    common_shares_authorized = fields.Number()
 
 
 class Unique(object):
