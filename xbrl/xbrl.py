@@ -635,15 +635,23 @@ class XBRLParser(object):
         return dei_obj
 
     @classmethod
-    def parse_unique(self, xbrl):
+    def parseCustom(self,
+                    xbrl,
+                    ignore_errors=0):
         """
-        Parse company unique entities from XBRL and return an Unique object.
+        Parse company custom entities from XBRL and return an Custom object.
         """
-        unique_obj = Unique()
+        custom_obj = Custom()
 
-        unique_data = xbrl.find_all(re.compile('^(?!us-gaap|xbrl*):\s*'))
+        custom_data = xbrl.find_all(re.compile('^((?!(us-gaap|dei|xbrll|xbrldi)).)*:\s*',
+            re.IGNORECASE | re.MULTILINE))
 
-        return unique_obj
+        elements = {}
+        for data in custom_data:
+            if XBRLParser().is_number(data.text):
+                setattr(custom_obj, data.name, data.text)
+
+        return custom_obj
 
     @staticmethod
     def trim_decimals(s, precision=-3):
@@ -954,6 +962,7 @@ class DEISerializer(Serializer):
     public_float = fields.Number()
 
 
-class Unique(object):
+# Base Custom object
+class Custom(object):
     def __init__(self):
         return None
