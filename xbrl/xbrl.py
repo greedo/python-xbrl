@@ -649,7 +649,7 @@ class XBRLParser(object):
         elements = {}
         for data in custom_data:
             if XBRLParser().is_number(data.text):
-                setattr(custom_obj, data.name, data.text)
+                setattr(custom_obj, data.name.split(':')[1], data.text)
 
         return custom_obj
 
@@ -964,5 +964,9 @@ class DEISerializer(Serializer):
 
 # Base Custom object
 class Custom(object):
+
     def __init__(self):
         return None
+
+    def __call__(self):
+        return self.__dict__.items()
