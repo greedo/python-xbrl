@@ -14,7 +14,7 @@ import six
 try:
     import __pypy__
 except ImportError:
-     __pypy__ = None
+    __pypy__ = None
 
 try:
     from StringIO import StringIO
