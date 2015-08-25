@@ -15,26 +15,36 @@ The easiest way to install python-xbrl is with pip
 ::
 
     sudo pip install python-xbrl
+
+Or install the latest dev version from github (or replace `@master` with a 
+`release vergitsion like @v1.1.0 <https://github.com/greedo/python-xbrl/releases>`__)
+
+::
+    
+    pip install git+https://github.com/greedo/python-xbrl.git@master
+    
+Or
+
+::
+
+    git clone https://github.com/greedo/python-xbrl.git
+
+Or
+
+Copy the python-xbrl directory into your python path. Zip 
+`here <https://github.com/greedo/python-xbrl/archive/master.zip>`__
     
 Made sure your **sys.path** is correct.
-
-Usage
------
-
-If you really want to become familiar with this library, read the
-docstrings in the code.
 
 Requirements
 ------------
 
-- Python >= 2.6 or >= 3.3
+- Python >= 2.6 or >= 3.3, PyPy
 
 python-xbrl relies on `beautifulsoup4 <http://beautiful-soup-4.readthedocs.org/en/latest/>`__ 
 which sits on top of the python XML parser `lxml <http://lxml.de/>`__. It also requires 
 `marshmallow <http://marshmallow.readthedocs.org/en/latest/>`__ for serializing objects. 
 For more details see `requirements.txt <https://github.com/greedo/python-xbrl/blob/master/requirements.txt>`__
-
-
 
 Initialization
 --------------
