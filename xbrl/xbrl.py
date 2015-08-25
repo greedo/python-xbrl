@@ -2,7 +2,7 @@
 # encoding: utf-8
 
 import re
-from marshmallow import Serializer, fields
+from marshmallow import Schema, fields
 import datetime
 import collections
 import six
@@ -890,7 +890,7 @@ class GAAP(object):
         self.common_shares_authorized = common_shares_authorized
 
 
-class GAAPSerializer(Serializer):
+class GAAPSerializer(Schema):
     assets = fields.Number()
     current_assets = fields.Number()
     non_current_assets = fields.Number()
@@ -955,7 +955,7 @@ class DEI(object):
         self.public_float = public_float
 
 
-class DEISerializer(Serializer):
+class DEISerializer(Schema):
     trading_symbol = fields.String()
     company_name = fields.String()
     shares_outstanding = fields.Number()

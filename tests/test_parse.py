@@ -783,3 +783,25 @@ def test_parse_DEI10Q_RRDonnelley():
     assert result.data['company_name'] == "BOSTON BEER CO INC"
     assert result.data['shares_outstanding'] == 4007355.0
     assert result.data['public_float'] == 0.0
+
+
+def test_parse_Custom10Q_RRDonnelley():
+
+    xbrl_parser = XBRLParser(0)
+    file_to_parse = "tests/sam-20130629.xml"
+    xbrl = xbrl_parser.parse(file_to_parse)
+    custom_obj = xbrl_parser.parseCustom(xbrl)
+
+    assert custom_obj()[0] == ('conversionofclassbcommonstocktoclassacommonstockshares', '100000')
+    assert custom_obj()[1] == ('percentageofproductionvolumes', '0.90')
+    assert custom_obj()[2] == ('sharebasedcompensationarrangementbysharebasedpaymentawardoptionstovestineachtranche', '5000')
+    assert custom_obj()[3] == ('weightedaveragenumberofsharesoutstandingbasicincludingnonvestedparticipatingsecurities', '12866000')
+    assert custom_obj()[4] == ('incrementalcommonsharesattributabletoconversionofcommonstock', '4007000')
+    assert custom_obj()[5] == ('sharebasedcompensationarrangementbysharebasedpaymentawardinvestmentsharesweightedaveragegrantdat', '59.62')
+    assert custom_obj()[6] == ('incomeallocatedtoequityinstrumentsotherthanoptionnonvested', '7000')
+    assert custom_obj()[7] == ('netproceedsfromsaleofinvestmentshares', '531000')
+    assert custom_obj()[8] == ('weightedaveragenumberofbasicsharesoutstandingequityinstrumentsotherthanoptionnonvested', '94000')
+    assert custom_obj()[9] == ('sharebasedcompensationarrangementbysharebasedpaymentawardemployeeinvestmentsharespurchase', '12894')
+    assert custom_obj()[10] == ('provisionforreductionofdoubtfulaccounts', '-28000')
+    assert custom_obj()[11] == ('receiptofgovernmentgrantsforfacilitiesexpansion', '770000')
+    assert custom_obj()[12] == ('netincomelossallocatedtoequityinstrumentsotherthanoptionnonvested', '-143000')
