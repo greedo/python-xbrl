@@ -799,7 +799,7 @@ def test_parse_Custom10Q_RRDonnelley():
 
         assert result == 13
 
-    else:
+    if six.PY2:
 
         result = custom_obj()
 
