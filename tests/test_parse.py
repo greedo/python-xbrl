@@ -12,6 +12,11 @@ import os
 import six
 
 try:
+    import __pypy__
+except ImportError:
+     __pypy__ = None
+
+try:
     from StringIO import StringIO
 except ImportError:
     from io import StringIO
@@ -799,7 +804,7 @@ def test_parse_Custom10Q_RRDonnelley():
 
         assert result == 13
 
-    if six.PY2:
+    if six.PY2 and not __pypy__:
 
         result = custom_obj()
 
