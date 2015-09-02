@@ -152,10 +152,10 @@ License
     specific language governing permissions and limitations
     under the license.
 
-.. |PyPI version| image:: https://badge.fury.io/py/python-xbrl.png?style=plastic
+.. |PyPI version| image:: https://badge.fury.io/py/python-xbrl.png?style=flat
    :target: http://badge.fury.io/py/python-xbrl
-.. |Travis-CI| image:: https://travis-ci.org/greedo/python-xbrl.png?style=plastic&branch=master
+.. |Travis-CI| image:: https://travis-ci.org/greedo/python-xbrl.png?branch=master
    :target: https://travis-ci.org/greedo/python-xbrl
-.. |license| image:: https://img.shields.io/pypi/l/python-xbrl.svg?style=plastic
+.. |license| image:: https://img.shields.io/pypi/l/python-xbrl.svg?style=flat
     :target: https://pypi.python.org/pypi/python-xbrl
 
