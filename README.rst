@@ -1,4 +1,4 @@
-|PyPI version| |Travis-CI|
+|PyPI version| |Travis-CI| |license|
 
 **python-xbrl** is a library for parsing
 `xbrl <http://www.xbrl.org/Specification/XBRL-2.1/REC-2003-12-31/XBRL-2.1-REC-2003-12-31+corrected-errata-2013-02-20.html>`__
@@ -156,3 +156,6 @@ License
    :target: http://badge.fury.io/py/python-xbrl
 .. |Travis-CI| image:: https://travis-ci.org/greedo/python-xbrl.png?branch=master
    :target: https://travis-ci.org/greedo/python-xbrl
+.. |license| image:: https://img.shields.io/pypi/l/python-xbrl.svg?style=flat-square
+    :target: https://pypi.python.org/pypi/python-xbrl
+
