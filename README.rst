@@ -99,6 +99,22 @@ different data than just GAAP data from the document. In addition as
 expected you can also create different serialized objects on the
 resulting parsed data object.
 
+
+**Extracting DEI Data**
+
+::
+    
+    dei_obj = xbrl_parser.parseDEI(xbrl)
+    serializer = DEISerializer()
+    result = serializer.dump(dei_obj)
+    
+**Extracting Custom Data**
+
+::
+    
+    custom_obj = xbrl_parser.parseCustom(xbrl)
+    print custom_obj()
+
 Testing
 -------
 
