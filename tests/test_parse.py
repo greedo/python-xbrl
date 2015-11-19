@@ -52,7 +52,7 @@ def test_parse_GAAP10Q_RRDonnelley():
                                          .split(".")[0][4:6] +
                                          file_to_parse.split("-")[1]
                                          .split(".")[0][6:8]),
-                                     "10-K", "current")
+                                     "current")
 
     serializer = GAAPSerializer()
     result = serializer.dump(gaap_obj)
@@ -118,7 +118,7 @@ def test_parse_GAAP10K_RRDonnelley():
                                          .split(".")[0][4:6] +
                                          file_to_parse.split("-")[1]
                                          .split(".")[0][6:8]),
-                                     "10-K", "current")
+                                     "current")
 
     serializer = GAAPSerializer()
     result = serializer.dump(gaap_obj)
@@ -185,7 +185,7 @@ def test_parse_GAAP10K_Webfilings():
                                          .split(".")[0][4:6] +
                                          file_to_parse.split("-")[1]
                                          .split(".")[0][6:8]),
-                                     "10-K", "current")
+                                     "current")
 
     serializer = GAAPSerializer()
     result = serializer.dump(gaap_obj)
@@ -252,7 +252,7 @@ def test_parse_GAAP10Q_Webfilings():
                                          .split(".")[0][4:6] +
                                          file_to_parse.split("-")[1]
                                          .split(".")[0][6:8]),
-                                     "10-Q", "current")
+                                     "current")
 
     serializer = GAAPSerializer()
     result = serializer.dump(gaap_obj)
@@ -319,7 +319,7 @@ def test_parse_GAAP10Q_Rivet():
                                          .split(".")[0][4:6] +
                                          file_to_parse.split("-")[1]
                                          .split(".")[0][6:8]),
-                                     "10-Q", "current")
+                                     "current")
 
     serializer = GAAPSerializer()
     result = serializer.dump(gaap_obj)
@@ -386,7 +386,7 @@ def test_parse_GAAP10K_Rivet():
                                          .split(".")[0][4:6] +
                                          file_to_parse.split("-")[1]
                                          .split(".")[0][6:8]),
-                                     "10-K", "current")
+                                     "current")
 
     serializer = GAAPSerializer()
     result = serializer.dump(gaap_obj)
@@ -453,7 +453,7 @@ def test_parse_GAAP10Q_QXInteractive():
                                          .split(".")[0][4:6] +
                                          file_to_parse.split("-")[1]
                                          .split(".")[0][6:8]),
-                                     "10-Q", "current")
+                                     "current")
 
     serializer = GAAPSerializer()
     result = serializer.dump(gaap_obj)
@@ -520,7 +520,7 @@ def test_parse_GAAP10K_ThomsonReuters():
                                          .split(".")[0][4:6] +
                                          file_to_parse.split("-")[1]
                                          .split(".")[0][6:8]),
-                                     "10-K", "current")
+                                     "current")
 
     serializer = GAAPSerializer()
     result = serializer.dump(gaap_obj)
@@ -587,7 +587,7 @@ def test_parse_GAAP10Q_Fujitsu():
                                          .split(".")[0][4:6] +
                                          file_to_parse.split("-")[1]
                                          .split(".")[0][6:8]),
-                                     "10-Q", "current")
+                                     "current")
 
     serializer = GAAPSerializer()
     result = serializer.dump(gaap_obj)
@@ -654,7 +654,7 @@ def test_parse_GAAP10K_Fujitsu():
                                          .split(".")[0][4:6] +
                                          file_to_parse.split("-")[1]
                                          .split(".")[0][6:8]),
-                                     "10-K", "current")
+                                     "current")
 
     serializer = GAAPSerializer()
     result = serializer.dump(gaap_obj)
@@ -721,7 +721,7 @@ def test_parse_GAAP10Q_Ez_XBRL():
                                          .split(".")[0][4:6] +
                                          file_to_parse.split("-")[1]
                                          .split(".")[0][6:8]),
-                                     "10-Q", "current")
+                                     "current")
 
     serializer = GAAPSerializer()
     result = serializer.dump(gaap_obj)
