@@ -11,7 +11,6 @@ xbrl = xbrl_parser.parse(file("../tests/sam-20130629.xml"))
 # Parse just the GAAP data from the xbrl object
 gaap_obj = xbrl_parser.parseGAAP(xbrl,
                                  doc_date="20130629",
-                                 doc_type="10-K",
                                  context="current",
                                  ignore_errors=0)
 

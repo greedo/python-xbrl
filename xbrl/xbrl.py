@@ -89,7 +89,6 @@ class XBRLParser(object):
     def parseGAAP(self,
                   xbrl,
                   doc_date="",
-                  doc_type="10-K",
                   context="current",
                   ignore_errors=0):
         """
