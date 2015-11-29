@@ -1,3 +1,4 @@
+sudo: true
 language: python
 python:
     - "3.4"
@@ -9,11 +10,12 @@ python:
 # pre-pip packages
 before_install:
     - sudo apt-get update -qq
-    - sudo apt-get install -qq python-dev libxml2 libxml2-dev libxslt-dev python3-lxml
+    - sudo apt-get install -qq python-dev libxml2 libxml2-dev libxslt-dev
 
 # command to install dependencies
 install:
     - pip install -r requirements.txt
+    - pip install git+https://github.com/amauryfa/lxml.git
 
 # command to run tests
 script:
