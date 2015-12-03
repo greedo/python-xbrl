@@ -46,7 +46,7 @@ which sits on top of the python XML parser `lxml <http://lxml.de/>`__. It also r
 `marshmallow <http://marshmallow.readthedocs.org/en/latest/>`__ for serializing objects.
 For more details see `requirements.txt <https://github.com/greedo/python-xbrl/blob/master/requirements.txt>`__
 
-For PyPI Support it is recommended you use `https://github.com/amauryfa/lxml <https://github.com/amauryfa/lxml>`__ for lxml as this is a fork that uses cffi instead of the python capi.
+For PyPI support it is recommended you use `https://github.com/amauryfa/lxml <https://github.com/amauryfa/lxml>`__ for lxml as this is a fork that uses cffi instead of the python capi.
 
 Initialization
 --------------
