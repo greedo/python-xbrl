@@ -5,7 +5,6 @@ python:
     - "3.3"
     - "2.7"
     - "2.6"
-    - "pypy"
 
 addons:
     apt:
@@ -18,8 +17,7 @@ addons:
 
 # command to install dependencies
 install:
-    - pip install --upgrade lxml
-    - pip install pytest pep8 marshmallow beautifulsoup4 ordereddict six
+    - pip install -r requirements.txt
 
 # command to run tests
 script:
