@@ -12,15 +12,17 @@ addons:
         packages:
             - python-dev
             - build-essential
+            - git-core
+            - mercurial-git
             - libxml2
             - libxml2-dev
             - libxslt1-dev
-            - python3-lxml
 
 # command to install dependencies
 install:
-    - pip install -r requirements.txt
-    - pip install git+https://github.com/amauryfa/lxml.git
+    - pip install pytest pep8 marshmallow beautifulsoup4 ordereddict six
+    - git clone https://github.com/amauryfa/lxml.git
+    - python setup.py build --without-cython
 
 # command to run tests
 script:
