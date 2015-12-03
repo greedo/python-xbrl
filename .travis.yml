@@ -10,19 +10,16 @@ python:
 addons:
     apt:
         packages:
-            - python-dev
             - build-essential
-            - git-core
-            - mercurial-git
+            - python-dev
             - libxml2
             - libxml2-dev
-            - libxslt1-dev
+            - libxslt-dev
 
 # command to install dependencies
 install:
+    - pip install --upgrade lxml
     - pip install pytest pep8 marshmallow beautifulsoup4 ordereddict six
-    - git clone https://github.com/amauryfa/lxml.git
-    - python setup.py build --without-cython
 
 # command to run tests
 script:
