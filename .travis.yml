@@ -22,7 +22,7 @@ addons:
 install:
     - pip install pytest pep8 marshmallow beautifulsoup4 ordereddict six
     - git clone https://github.com/amauryfa/lxml.git
-    - python setup.py build --with-cython
+    - python setup.py build --without-cython
 
 # command to run tests
 script:
