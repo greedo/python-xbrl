@@ -14,7 +14,7 @@ The easiest way to install python-xbrl is with pip
 
 ::
 
-    sudo pip install python-xbrl
+    pip install python-xbrl
 
 Or install the latest dev version from github (or replace `@master` with a 
 `release vergitsion like @v1.1.0 <https://github.com/greedo/python-xbrl/releases>`__)
