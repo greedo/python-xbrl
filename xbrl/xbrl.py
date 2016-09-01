@@ -663,7 +663,10 @@ class XBRLParser(object):
             str_val = str(encoded, encoding='ascii',
                           errors='ignore')[:precision]
         else:
-            str_val = str(encoded)[:precision]
+        	if precision > 0:
+            	str_val = str(encoded)[:precision]
+            else:
+            	str_val = str(encoded)
         if len(str_val) > 0:
             return float(str_val)
         else:
