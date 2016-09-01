@@ -662,10 +662,10 @@ class XBRLParser(object):
         if six.PY3:
             str_val = str(encoded, encoding='ascii', errors='ignore')[:precision]
         else:
-            #If precision is 0, this must be handled seperately
+            # If precision is 0, this must be handled seperately
             if precision > 0:
                 str_val = str(encoded)[:precision]
-            #No trimming required
+            # No trimming required
             else:
                 str_val = str(encoded)
         if len(str_val) > 0:
