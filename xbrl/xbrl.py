@@ -696,7 +696,8 @@ class XBRLParser(object):
                                          'no_context': False})
 
         if options['type'] == 'String':
-            return elements[0].text
+            if len(elements) > 0:
+                    return elements[0].text
 
         if options['no_context'] == True:
             if len(elements) > 0 and XBRLParser().is_number(elements[0].text):
