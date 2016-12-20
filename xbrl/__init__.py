@@ -3,6 +3,6 @@
 
 from __future__ import absolute_import
 
-from .xbrl import XBRLParser, GAAP, GAAPSerializer, XBRLParserException
+from .xbrl import XBRLParser, GAAP, GAAPSerializer, XBRLParserException, DEISerializer
 
 version = (1, 1, 0)

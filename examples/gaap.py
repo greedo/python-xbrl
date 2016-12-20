@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 # encoding: utf-8
 
-from xbrl import XBRLParser, GAAP, GAAPSerializer
+from xbrl import XBRLParser, GAAP, GAAPSerializer, DEISerializer
 
 xbrl_parser = XBRLParser(precision=0)
 
