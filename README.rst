@@ -65,7 +65,7 @@ First parse the incoming XRBL file into a new ``XBRL`` basic object
 ::
 
     xbrl_parser = XBRLParser()
-    xbrl = xbrl_parser.parse(file("sam-20131228.xml"))
+    xbrl = xbrl_parser.parse(open("sam-20131228.xml"))
 
 Then you can parse the document using different parsers
 
