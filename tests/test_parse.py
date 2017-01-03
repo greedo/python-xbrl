@@ -161,7 +161,7 @@ def test_parse_GAAP10K_RRDonnelley():
     assert result.data['comprehensive_income_interest'] == 0.0
     assert result.data['other_comprehensive_income'] == 0.0
     assert result.data['equity_attributable_parent'] == 0.0
-    assert result.data['assets'] == 444075.0 
+    assert result.data['assets'] == 444075.0
     assert result.data['gross_profit'] == 104628.0
     assert result.data['net_cash_flows_operating_continuing'] == 0.0
     assert result.data['current_assets'] == 164278.0
@@ -432,7 +432,7 @@ def test_parse_GAAP10K_Rivet():
     assert result.data['assets'] == 15912.0
     assert result.data['gross_profit'] == 2784.0
     assert result.data['net_cash_flows_operating_continuing'] == 0.0
-    assert result.data['current_assets'] ==13330.0
+    assert result.data['current_assets'] == 13330.0
     assert result.data['interest_and_debt_expense'] == 0.0
     assert result.data['net_income_loss_noncontrolling'] == 0.0
     assert result.data['net_cash_flows_operating'] == 0.0
@@ -496,7 +496,7 @@ def test_parse_GAAP10Q_QXInteractive():
     assert result.data['comprehensive_income_interest'] == 0.0
     assert result.data['other_comprehensive_income'] == 0.0
     assert result.data['equity_attributable_parent'] == 0.0
-    assert result.data['assets'] == 153524.0  
+    assert result.data['assets'] == 153524.0
     assert result.data['gross_profit'] == 11188.0
     assert result.data['net_cash_flows_operating_continuing'] == 0.0
     assert result.data['current_assets'] == 106114.0
@@ -602,7 +602,7 @@ def test_parse_GAAP10Q_Fujitsu():
     assert result.data['extraordary_items_gain_loss'] == 0.0
     assert result.data['temporary_equity'] == 0.0
     assert result.data['costs_and_expenses'] == 414512.0
-    assert result.data['non_current_assets'] == 3568474.0  
+    assert result.data['non_current_assets'] == 3568474.0
     assert result.data['net_cash_flows_discontinued'] == 0.0
     assert result.data['income_loss'] == 26657.0
     assert result.data['liabilities_and_equity'] == 4100064.0
@@ -633,7 +633,7 @@ def test_parse_GAAP10Q_Fujitsu():
     assert result.data['assets'] == 4100064.0
     assert result.data['gross_profit'] == 0.0
     assert result.data['net_cash_flows_operating_continuing'] == 0.0
-    assert result.data['current_assets'] == 531590.0 
+    assert result.data['current_assets'] == 531590.0
     assert result.data['interest_and_debt_expense'] == 0.0
     assert result.data['net_income_loss_noncontrolling'] == 0.0
     assert result.data['net_cash_flows_operating'] == 0.0
@@ -669,7 +669,7 @@ def test_parse_GAAP10K_Fujitsu():
     assert result.data['extraordary_items_gain_loss'] == 0.0
     assert result.data['temporary_equity'] == 0.0
     assert result.data['costs_and_expenses'] == 0.0
-    assert result.data['non_current_assets'] == 3124306.0 
+    assert result.data['non_current_assets'] == 3124306.0
     assert result.data['net_cash_flows_discontinued'] == 0.0
     assert result.data['income_loss'] == 0.0
     assert result.data['liabilities_and_equity'] == 3718259.0
@@ -697,7 +697,7 @@ def test_parse_GAAP10K_Fujitsu():
     assert result.data['comprehensive_income_interest'] == 0.0
     assert result.data['other_comprehensive_income'] == 0.0
     assert result.data['equity_attributable_parent'] == 0.0
-    assert result.data['assets'] == 3718259.0 
+    assert result.data['assets'] == 3718259.0
     assert result.data['gross_profit'] == 0.0
     assert result.data['net_cash_flows_operating_continuing'] == 0.0
     assert result.data['current_assets'] == 593953.0
@@ -736,7 +736,7 @@ def test_parse_GAAP10Q_Ez_XBRL():
     assert result.data['extraordary_items_gain_loss'] == 0.0
     assert result.data['temporary_equity'] == 0.0
     assert result.data['costs_and_expenses'] == 0.0
-    assert result.data['non_current_assets'] == 58615.0 
+    assert result.data['non_current_assets'] == 58615.0
     assert result.data['net_cash_flows_discontinued'] == 0.0
     assert result.data['income_loss'] == -7593.0
     assert result.data['liabilities_and_equity'] == 79451.0
@@ -764,7 +764,7 @@ def test_parse_GAAP10Q_Ez_XBRL():
     assert result.data['comprehensive_income_interest'] == 0.0
     assert result.data['other_comprehensive_income'] == 0.0
     assert result.data['equity_attributable_parent'] == 0.0
-    assert result.data['assets'] == 79451.0 
+    assert result.data['assets'] == 79451.0
     assert result.data['gross_profit'] == 5433.0
     assert result.data['net_cash_flows_operating_continuing'] == 0.0
     assert result.data['current_assets'] == 20836.0

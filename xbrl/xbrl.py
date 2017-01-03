@@ -210,9 +210,9 @@ class XBRLParser(object):
             xbrl.find_all(name=re.compile("(us-gaap:)[^s]*(assetsnoncurrent)",
                           re.IGNORECASE | re.MULTILINE))
         if non_current_assets == 0 or not non_current_assets:
-            # Assets  = AssetsCurrent  +  AssetsNoncurrent 
+            # Assets  = AssetsCurrent  +  AssetsNoncurrent
             gaap_obj.non_current_assets = gaap_obj.assets \
-                    - gaap_obj.current_assets 
+                - gaap_obj.current_assets
         else:
             gaap_obj.non_current_assets = \
                 self.data_processing(non_current_assets, xbrl,
