@@ -197,14 +197,12 @@ class XBRLParser(object):
         except IndexError:
             raise XBRLParserException('problem getting contexts')
 
-        assets = xbrl.find_all(name=re.compile("(us-gaap:)[^s]*(assets)",
-                               re.IGNORECASE | re.MULTILINE))
+        assets = xbrl.find_all("us-gaap:assets")
         gaap_obj.assets = self.data_processing(assets, xbrl,
             ignore_errors, logger, context_ids)
 
         current_assets = \
-            xbrl.find_all(name=re.compile("(us-gaap:)[^s]*(currentassets)",
-                          re.IGNORECASE | re.MULTILINE))
+            xbrl.find_all("us-gaap:assetscurrent")
         gaap_obj.current_assets = self.data_processing(current_assets,
             xbrl, ignore_errors, logger, context_ids)
 
@@ -212,8 +210,9 @@ class XBRLParser(object):
             xbrl.find_all(name=re.compile("(us-gaap:)[^s]*(assetsnoncurrent)",
                           re.IGNORECASE | re.MULTILINE))
         if non_current_assets == 0 or not non_current_assets:
-            gaap_obj.non_current_assets = gaap_obj.current_assets \
-                - gaap_obj.assets
+            # Assets  = AssetsCurrent  +  AssetsNoncurrent 
+            gaap_obj.non_current_assets = gaap_obj.assets \
+                    - gaap_obj.current_assets 
         else:
             gaap_obj.non_current_assets = \
                 self.data_processing(non_current_assets, xbrl,
