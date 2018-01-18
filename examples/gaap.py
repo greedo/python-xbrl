@@ -37,4 +37,4 @@ print(result)
 custom_obj = xbrl_parser.parseCustom(xbrl)
 
 # Print out the Custom data as an array of tuples
-print (custom_obj())
+print(custom_obj())
