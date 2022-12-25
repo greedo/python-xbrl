@@ -9,7 +9,7 @@ on:
 
 jobs:
     unit-test:
-        runs-on: ubuntu-latest
+        runs-on: ${{ matrix.os }}
         strategy:
             fail-fast: false
             matrix:
@@ -21,8 +21,6 @@ jobs:
               uses: actions/setup-python@v3
               with:
                   python-version: ${{ matrix.python-version }}
-              #env:
-              #    AGENT_TOOLSDIRECTORY: /opt/hostedtoolcache
 
             - name: display test env
               run: python3 -c "import sys; print(sys.platform)" && python -V
