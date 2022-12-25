@@ -4,7 +4,7 @@
 import re
 from marshmallow import Schema, fields
 import datetime
-import collections
+import collections as odict
 import six
 import logging
 
@@ -12,11 +12,6 @@ try:
     from StringIO import StringIO
 except ImportError:
     from io import StringIO
-
-if 'OrderedDict' in dir(collections):
-    odict = collections
-else:
-    import ordereddict as odict
 
 
 def soup_maker(fh):
